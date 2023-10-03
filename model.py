@@ -27,7 +27,12 @@ class User(db.Model):
     username = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
-    lists = db.relationship("List", back_populates="user")
+    lists = db.relationship("List", secondary="list_items", back_populates="user")
+    achievements = db.relationship("Achievement", secondary="user_achievements", back_populates="users")
+    tags = db.relationship("Tag", secondary="user_tags", back_populates="users")
+
+    def __repr__(self):
+        return f'<User user_id={self.user_id} email={self.email} username={self.username}>'
 
 
 class Restaurant(db.Model):
@@ -40,6 +45,9 @@ class Restaurant(db.Model):
                               primary_key=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Restaurant restaurant_id={self.restaurant_id} name={self.name}>'
 
 
 class RestaurantVisit(db.Model):
@@ -68,6 +76,11 @@ class Achievement(db.Model):
     description = db.Column(db.String)
     points = db.Column(db.Integer)
 
+    users = db.relationship("User", secondary="user_achievements", back_populates="achievements")
+
+    def __repr__(self):
+        return f'<Achievement achievement_id={self.achievement_id} name={self.name}>'
+
 
 class UserAchievement(db.Model):
     """An instance of a user earning an achievement."""
@@ -92,6 +105,11 @@ class Tag(db.Model):
                        autoincrement=True,
                        primary_key=True)
     name = db.Column(db.String)
+
+    users = db.relationship("User", secondary="user_tags", back_populates="tags")
+
+    def __repr__(self):
+        return f'<Tag tag_id={self.tag_id} name={self.name}>'
 
 
 class UserTags(db.Model):
@@ -125,6 +143,9 @@ class List(db.Model):
     
     user = db.relationship("User", back_populates="lists")
 
+    def __repr__(self):
+        return f'<List list_id={self.list_id} user_id={self.user_id} name={self.name}>'
+
 
 class ListItem(db.Model):
     """An instance of a restaurant being added to a list by a user."""
@@ -136,6 +157,8 @@ class ListItem(db.Model):
                         primary_key=True)
     list_id = db.Column(db.Integer,
                         db.ForeignKey('lists.list_id'))
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey('users.user_id'))
     restaurant_id = db.Column(db.Integer,
                         db.ForeignKey('restaurants.restaurant_id'))
 
