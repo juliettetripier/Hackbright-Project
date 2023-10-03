@@ -6,8 +6,13 @@ db = SQLAlchemy()
 # TO DO:
 # create all tables - done
 # create all relationships between tables
+    # set up relationships specifically when you want to pull info together
+    # every time
+    # users / achievements, users / tags?
 # write __repr__ functions
 # write connect to db function
+# make seed file
+    # test by adding info to one table at a time, running psql queries
 
 
 class User(db.Model):
@@ -49,9 +54,6 @@ class RestaurantVisit(db.Model):
                               db.ForeignKey('restaurants.restaurant_id'))
     user_id = db.Column(db.Integer,
                               db.ForeignKey('users.user_id'))
-    
-    user = db.relationship("User", back_populates="restaurant_visits")
-    restaurant = db.relationship("Restaurant", back_populates="restaurant_visits")
 
 
 class Achievement(db.Model):
@@ -79,9 +81,6 @@ class UserAchievement(db.Model):
                         db.ForeignKey('users.user_id'))
     achievement_id = db.Column(db.Integer,
                         db.ForeignKey('achievements.achievement_id'))
-    
-    user = db.relationship("User", back_populates="user_achievements")
-    achievement = db.relationship("Achievement", back_populates="user_achievements")
 
 
 class Tag(db.Model):
@@ -110,11 +109,7 @@ class UserTags(db.Model):
     restaurant_id = db.Column(db.Integer,
                               db.ForeignKey('restaurants.restaurant_id'))
     
-    user = db.relationship("User", back_populates="user_tags")
-    tag = db.relationship("Tag", back_populates="user_tags")
-    restaurant = db.relationship("Restaurant", back_populates="user_tags")
     
-
 class List(db.Model):
     """A list belonging to a user."""
 
@@ -143,8 +138,5 @@ class ListItem(db.Model):
                         db.ForeignKey('lists.list_id'))
     restaurant_id = db.Column(db.Integer,
                         db.ForeignKey('restaurants.restaurant_id'))
-    
-    user_list = db.Relationship("List", back_populates="list_items")
-    restaurant = db.relationship("Restaurant", back_populates="list_items")
 
     
