@@ -3,18 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-# TO DO:
-# create all tables - done
-# create all relationships between tables
-    # set up relationships specifically when you want to pull info together
-    # every time
-    # users / achievements, users / tags?
-# write __repr__ functions
-# write connect to db function
-# make seed file
-    # test by adding info to one table at a time, running psql queries
-
-
 class User(db.Model):
     """A user."""
 
@@ -30,6 +18,7 @@ class User(db.Model):
     lists = db.relationship("List", secondary="list_items", back_populates="user")
     achievements = db.relationship("Achievement", secondary="user_achievements", back_populates="users")
     tags = db.relationship("Tag", secondary="user_tags", back_populates="users")
+    visits = db.relationship("Restaurant", secondary="restaurant_visits", back_populates="visitors")
 
     def __repr__(self):
         return f'<User user_id={self.user_id} email={self.email} username={self.username}>'
@@ -45,6 +34,9 @@ class Restaurant(db.Model):
                               primary_key=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
+
+    visitors = db.relationship("User", secondary="restaurant_visits", back_populates="visits")
+    tags = db.relationship("Tag", secondary="user_tags", back_populates="restaurants")
 
     def __repr__(self):
         return f'<Restaurant restaurant_id={self.restaurant_id} name={self.name}>'
@@ -94,6 +86,9 @@ class UserAchievement(db.Model):
                         db.ForeignKey('users.user_id'))
     achievement_id = db.Column(db.Integer,
                         db.ForeignKey('achievements.achievement_id'))
+    
+    def __repr__(self):
+        return f'user_id {self.user_id} has earned achievement {self.achievement_id}'
 
 
 class Tag(db.Model):
@@ -107,12 +102,13 @@ class Tag(db.Model):
     name = db.Column(db.String)
 
     users = db.relationship("User", secondary="user_tags", back_populates="tags")
+    restaurants = db.relationship("Restaurant", secondary="user_tags", back_populates="tags")
 
     def __repr__(self):
         return f'<Tag tag_id={self.tag_id} name={self.name}>'
 
 
-class UserTags(db.Model):
+class UserTag(db.Model):
     """An instance of a user assigning a tag."""
 
     __tablename__ = "user_tags"
@@ -129,7 +125,7 @@ class UserTags(db.Model):
     
     
 class List(db.Model):
-    """A list belonging to a user."""
+    """A list."""
 
     __tablename__ = "lists"
 
@@ -142,6 +138,7 @@ class List(db.Model):
     description = db.Column(db.String)
     
     user = db.relationship("User", back_populates="lists")
+    listitems = db.relationship("ListItem", back_populates="wishlist")
 
     def __repr__(self):
         return f'<List list_id={self.list_id} user_id={self.user_id} name={self.name}>'
@@ -161,5 +158,22 @@ class ListItem(db.Model):
                         db.ForeignKey('users.user_id'))
     restaurant_id = db.Column(db.Integer,
                         db.ForeignKey('restaurants.restaurant_id'))
+    
+    wishlist = db.relationship("List", back_populates="listitems")
 
     
+def connect_to_db(flask_app, db_uri="postgresql:///seed", echo=True):
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    flask_app.config["SQLALCHEMY_ECHO"] = echo
+    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    db.app = flask_app
+    db.init_app(flask_app)
+
+    print("Connected to the db!")
+
+
+if __name__ == "__main__":
+    from server import app
+
+    connect_to_db(app)
