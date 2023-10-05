@@ -40,17 +40,18 @@ def login():
     if user:
         if password == user.password:
             session['user'] = user.user_id
-            flash('Logged in!')
-            # making sure user id is stored in session
-            print(session['user'])
-            return redirect('/')
+            return redirect('/profile')
         else: 
             flash('Your login credentials are incorrect. Please try again.')
             return redirect('/')
     else:
         flash('Your login credentials are incorrect. Please try again.')
         return redirect('/')
+    
 
+@app.route('/profile')
+def show_profile():
+    return render_template('profile.html')
 
 
 
@@ -59,4 +60,4 @@ def login():
 
 if __name__ == "__main__":
     connect_to_db(app)
-    app.run(host='0.0.0.0', debug=False)
+    app.run(host='0.0.0.0', debug=True)
