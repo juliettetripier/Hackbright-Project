@@ -3,7 +3,8 @@ from model import db, connect_to_db, User, Restaurant, RestaurantVisit, Achievem
 
 if __name__ == '__main__':
     from server import app
-    connect_to_db(app) 
+    with app.app_context():
+        connect_to_db(app) 
 
 
 def create_user(email, username, password):
