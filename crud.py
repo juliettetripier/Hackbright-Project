@@ -55,3 +55,13 @@ def get_user_by_id(user_id):
 
     return User.query.get(user_id)
 
+def get_user_by_email(email):
+    """Take an email address and return the user object with that email address."""
+
+    return User.query.filter(email == User.email).first()
+
+def get_user_by_username(username):
+    """Take a username and return the user object with that username."""
+
+    return User.query.filter(username == User.username).first()
+
