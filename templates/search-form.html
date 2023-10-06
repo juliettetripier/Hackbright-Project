@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Search for Restaurants!{% endblock %}
+
+{% block body %}
+
+<h1>Search for Restaurants</h1>
+
+<form action="/search/go">
+    <div>
+        <label for="keywords">Search by Keyword</label>
+        <input id="keywords" type="text" name="keywords">
+    </div>
+
+    <br>
+
+    <div>
+        <label for="location">Location</label>
+        <input id="location" type="text" name="location">
+        <p><i>Please enter a city, address, or ZIP code</i></p>
+    </div>
+
+    <br>
+
+    <div>
+        <label for="radius">Radius</label>
+        <input id="radius" type="text" name="radius">
+    </div>
+
+    <br>
+
+    <div>
+    <input type="submit" value="Let's Eggsplore!">
+    </div>
+
+</form>
+
+{% endblock %}

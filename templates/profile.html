@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Your Profile{% endblock %}
+
+{% block body %}
+
+<h1>Your profile page</h1>
+
+<p> User ID: {{ user.user_id }}</p>
+
+<p> Username: {{ user.username }}</p>
+
+<p><a href="/search">Search for restaurants!</a></p>
+
+{% endblock %}

@@ -2,9 +2,14 @@ from flask import (Flask, render_template, request, flash, session,
                    redirect)
 from model import connect_to_db, db
 import crud
+import os
+import requests
 
 app = Flask(__name__)
 app.secret_key = "REPLACE ME LATER"
+
+# YELP_API_KEY = os.environ['YELP_KEY']
+# MAPS_API_KEY = os.environ['MAPS_KEY']
 
 
 @app.route('/')
@@ -51,7 +56,37 @@ def login():
 
 @app.route('/profile')
 def show_profile():
-    return render_template('profile.html')
+    """Show user profile."""
+
+    user = crud.get_user_by_id(session.get('user'))
+    if user:
+        return render_template('profile.html', user=user)
+    else:
+        flash('Please log in to view your profile page.')
+        return redirect('/')
+
+
+@app.route('/search')
+def show_search_form():
+    """Display restaurant search form."""
+
+    user = crud.get_user_by_id(session.get('user'))
+    if user:
+        return render_template('search-form.html')
+    else:
+        flash('Please log in to search for restaurants.')
+        return redirect('/')
+
+
+@app.route('/search/go')
+def get_search_results():
+    """Search for restaurants on Yelp."""
+
+    keywords = request.args.get('keywords')
+    location = request.args.get('location')
+    radius = request.args.get('radius')
+    
+
 
 
 
