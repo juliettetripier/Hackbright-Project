@@ -28,7 +28,7 @@ with server.app.app_context():
 
     user1.achievements.append(achievement1)
 
-    list1 = model.List(user_id=1, name="Wishlist", description="user1's wishlist")
+    list1 = model.Wishlist(user_id=1, name="Wishlist", description="user1's wishlist")
     model.db.session.add(list1)
 
     model.db.session.commit()

@@ -15,7 +15,7 @@
 
     <div>
         <label for="location">Location</label>
-        <input id="location" type="text" name="location">
+        <input id="location" type="text" name="location" required> *
         <p><i>Please enter a city, address, or ZIP code</i></p>
     </div>
 
@@ -24,6 +24,10 @@
     <div>
         <label for="radius">Radius</label>
         <input id="radius" type="text" name="radius">
+        <select name="unit" id="unit">
+            <option value="miles">miles</option>
+            <option value="kilometers">kilometers</option>
+        </select>
     </div>
 
     <br>

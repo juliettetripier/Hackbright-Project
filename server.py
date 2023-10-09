@@ -3,12 +3,13 @@ from flask import (Flask, render_template, request, flash, session,
 from model import connect_to_db, db
 import crud
 import os
+import math
 import requests
 
 app = Flask(__name__)
 app.secret_key = "REPLACE ME LATER"
 
-# YELP_API_KEY = os.environ['YELP_KEY']
+YELP_API_KEY = os.environ['YELP_KEY']
 # MAPS_API_KEY = os.environ['MAPS_KEY']
 
 
@@ -81,11 +82,55 @@ def show_search_form():
 @app.route('/search/go')
 def get_search_results():
     """Search for restaurants on Yelp."""
+    """Add search results to db if not already in db."""
 
     keywords = request.args.get('keywords')
     location = request.args.get('location')
     radius = request.args.get('radius')
-    
+    unit = request.args.get('unit')
+
+    # Convert radius to meters for Yelp API
+    if radius != "":
+        radius = float(radius)
+        if unit == "miles":
+            radius = radius * 1609.34
+        elif unit == "kilometers":
+            radius = radius * 1000
+        radius = math.ceil(radius)
+        
+    url = 'https://api.yelp.com/v3/businesses/search'
+
+    payload = {
+            'term': keywords,
+            'location': location,
+            'radius': radius,
+            'limit': 50,
+            }
+
+    headers = {
+            'accept': 'application/json',
+            'Authorization': f'Bearer {YELP_API_KEY}',
+        }
+
+    response = requests.get(url, params=payload, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        restaurants = data['businesses']
+        for restaurant in restaurants:
+            restaurant_in_db = crud.get_restaurant_by_yelp_id(restaurant['id'])
+            if not restaurant_in_db:
+                new_restaurant = crud.create_restaurant(name=restaurant['name'], address=restaurant['location']['display_address'],
+                                       yelp_id=restaurant['id'])
+                db.session.add(new_restaurant)
+        db.session.commit()
+                
+    elif response.status_code == 400:
+        restaurants = []
+
+    return render_template('search-results.html',
+                           data=data,
+                           restaurants=restaurants)
 
 
 

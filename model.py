@@ -15,7 +15,7 @@ class User(db.Model):
     username = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
-    lists = db.relationship("List", secondary="list_items", back_populates="user")
+    lists = db.relationship("Wishlist", secondary="list_items", back_populates="user")
     achievements = db.relationship("Achievement", secondary="user_achievements", back_populates="users")
     tags = db.relationship("Tag", secondary="user_tags", back_populates="users")
     visits = db.relationship("Restaurant", secondary="restaurant_visits", back_populates="visitors")
@@ -32,6 +32,7 @@ class Restaurant(db.Model):
     restaurant_id = db.Column(db.Integer,
                               autoincrement=True,
                               primary_key=True)
+    yelp_id = db.Column(db.String)
     name = db.Column(db.String)
     address = db.Column(db.String)
 
@@ -124,7 +125,7 @@ class UserTag(db.Model):
                               db.ForeignKey('restaurants.restaurant_id'))
     
     
-class List(db.Model):
+class Wishlist(db.Model):
     """A list."""
 
     __tablename__ = "lists"
@@ -159,7 +160,7 @@ class ListItem(db.Model):
     restaurant_id = db.Column(db.Integer,
                         db.ForeignKey('restaurants.restaurant_id'))
     
-    wishlist = db.relationship("List", back_populates="listitems")
+    wishlist = db.relationship("Wishlist", back_populates="listitems")
 
     
 def connect_to_db(flask_app, db_uri="postgresql:///seed", echo=True):

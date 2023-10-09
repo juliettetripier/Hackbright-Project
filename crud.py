@@ -1,4 +1,4 @@
-from model import db, connect_to_db, User, Restaurant, RestaurantVisit, Achievement, UserAchievement, Tag, UserTag, List, ListItem
+from model import db, connect_to_db, User, Restaurant, RestaurantVisit, Achievement, UserAchievement, Tag, UserTag, Wishlist, ListItem
 
 
 if __name__ == '__main__':
@@ -15,10 +15,10 @@ def create_user(email, username, password):
     return user
 
 
-def create_restaurant(name, address):
+def create_restaurant(name, address, yelp_id):
     """Create and return a new restaurant."""
 
-    restaurant = Restaurant(name=name, address=address)
+    restaurant = Restaurant(name=name, address=address, yelp_id=yelp_id)
 
     return restaurant
 
@@ -65,4 +65,9 @@ def get_user_by_username(username):
     """Take a username and return the user object with that username."""
 
     return User.query.filter(username == User.username).first()
+
+def get_restaurant_by_yelp_id(yelp_id):
+    """Return a restaurant object with the given Yelp ID."""
+
+    return User.query.filter(yelp_id == Restaurant.yelp_id).first()
 
