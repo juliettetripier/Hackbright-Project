@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Search Results{% endblock %}
+
+{% block body %}
+
+<h1>Search Results</h1>
+
+<p>Your search found {{ restaurants|length }} restaurants.</p>
+
+<div id="search-results">
+    <ul>
+        {% for restaurant in restaurants %}
+        <li>
+            <a href="/restaurant/{{ restaurant['id'] }}">
+                {{ restaurant['name'] }}
+            </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

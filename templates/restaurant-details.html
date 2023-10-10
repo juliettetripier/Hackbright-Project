@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}{{ data['name'] }}{% endblock %}
+
+{% block body %}
+
+<h1>{{ data['name'] }}</h1>
+
+<h3>
+{% for item in data['location']['display_address'] %}
+{{ item }}
+{% endfor %}
+</h3>
+
+<div id="yelp-image">
+    <img src="{{ data['image_url'] }}">
+</div>
+
+<h4>Price: {{ data['price'] }}</h4>
+
+<div id="transactions">
+{{ data['transactions'] }}
+</div>
+
+<div id="hours">
+{{ data['hours'] }}
+</div>
+
+<h4>Contact: {{ data['display_phone'] }}</h4>
+
+{% endblock %}
+
+<!-- Things to include: name, image_url, display_phone, display_address,
+photos ?, price, hours, transactions -->

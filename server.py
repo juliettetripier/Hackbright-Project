@@ -99,14 +99,12 @@ def get_search_results():
         radius = math.ceil(radius)
         
     url = 'https://api.yelp.com/v3/businesses/search'
-
     payload = {
             'term': keywords,
             'location': location,
             'radius': radius,
             'limit': 50,
             }
-
     headers = {
             'accept': 'application/json',
             'Authorization': f'Bearer {YELP_API_KEY}',
@@ -123,8 +121,7 @@ def get_search_results():
                 new_restaurant = crud.create_restaurant(name=restaurant['name'], address=restaurant['location']['display_address'],
                                        yelp_id=restaurant['id'])
                 db.session.add(new_restaurant)
-        db.session.commit()
-                
+        db.session.commit()           
     elif response.status_code == 400:
         restaurants = []
 
@@ -133,7 +130,24 @@ def get_search_results():
                            restaurants=restaurants)
 
 
+@app.route('/restaurant/<id>')
+def show_restaurant_page(id):
+    """Show details for a particular restaurant."""
 
+    url = f'https://api.yelp.com/v3/businesses/{id}'
+    payload = {
+        'id': id
+    }
+    headers = {
+        'accept': 'application/json',
+        'Authorization': f'Bearer {YELP_API_KEY}',
+    }
+
+    response = requests.get(url, params=payload, headers=headers)
+    data = response.json()
+
+    return render_template('restaurant-details.html',
+                           data=data)
 
 
 
