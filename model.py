@@ -55,6 +55,9 @@ class RestaurantVisit(db.Model):
                               db.ForeignKey('restaurants.restaurant_id'))
     user_id = db.Column(db.Integer,
                               db.ForeignKey('users.user_id'))
+    
+    def __repr__(self):
+        return f'<RestaurantVisit visit_id={self.visit_id} user_id={self.user_id} restaurant_id={self.restaurant_id}>'
 
 
 class Achievement(db.Model):

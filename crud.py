@@ -76,3 +76,9 @@ def get_restaurant_by_yelp_id(yelp_id):
 
     return Restaurant.query.filter(yelp_id == Restaurant.yelp_id).first()
 
+def get_visit(user_id, restaurant_id):
+    """Takes in a user id and restaurant id and returns the corresponding restaurant visit object."""
+
+    return RestaurantVisit.query.filter_by(user_id=user_id, restaurant_id=restaurant_id).first()
+
+

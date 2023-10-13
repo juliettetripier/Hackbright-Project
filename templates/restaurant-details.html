@@ -11,7 +11,13 @@
     {% endfor %}
 </h3>
 
-<button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
+{% if visit %}
+    <button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}" style="display: none">I ate here!</button>
+    <button type="button" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}">Click here to unvisit</button>
+{% else %}
+    <button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
+    <button type="button" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}" style="display: none">Click here to unvisit</button>
+{% endif %}
 
 <div id="yelp-image">
     <img src="{{ data['image_url'] }}">

@@ -11,4 +11,14 @@
 
 <p><a href="/search">Search for restaurants!</a></p>
 
+<div id="visits">
+    <p>{{ user.username }}'s visited restaurants</p>
+    <ul>
+    {% for visit in user.visits %}
+    <li>{{ visit.name }}</li>
+    {% endfor %}
+    </ul>
+
+</div>
+
 {% endblock %}

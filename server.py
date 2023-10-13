@@ -176,9 +176,16 @@ def show_restaurant_page(id):
                 military_hour = hours[item]
                 hour = datetime.datetime.strptime(military_hour, '%H%M').strftime('%I:%M %p')
                 hours[item] = hour
+    
+    # check if user has visited restaurant
+    user_id = session.get('user')
+    restaurant = crud.get_restaurant_by_yelp_id(data['id'])
+    restaurant_id = restaurant.restaurant_id
+    visit = crud.get_visit(user_id, restaurant_id)
 
     return render_template('restaurant-details.html',
-                           data=data)
+                           data=data,
+                           visit=visit)
 
 
 @app.route('/addvisit', methods=['POST'])
@@ -186,9 +193,9 @@ def add_visit():
     """Add restaurant to a user's visited restaurants."""
 
     yelp_restaurant_id = request.json.get('restaurantid')
-    user = crud.get_user_by_id(session.get('user'))
     restaurant = crud.get_restaurant_by_yelp_id(yelp_restaurant_id)
-
+    user = crud.get_user_by_id(session.get('user'))
+    
     if restaurant:
         new_visit = crud.add_visit(user.user_id, restaurant.restaurant_id)
     else:
@@ -202,9 +209,25 @@ def add_visit():
 
     db.session.add(new_visit)
     db.session.commit()
+    print(new_visit)
 
     return jsonify({'code': 'Visit registered!'})
 
+
+@app.route('/removevisit', methods=['POST'])
+def remove_visit():
+    """Remove visit from user's visited restaurants."""
+
+    yelp_restaurant_id = request.json.get('restaurantid')
+    restaurant = crud.get_restaurant_by_yelp_id(yelp_restaurant_id)
+    user = crud.get_user_by_id(session.get('user'))
+    
+    visit = crud.get_visit(user.user_id, restaurant.restaurant_id)
+
+    db.session.delete(visit)
+    db.session.commit()
+
+    return jsonify({'code': 'Visit deleted!'})
 
 
     #there needs to be a button on restaurant details page with restaurant id as value
