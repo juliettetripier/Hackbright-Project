@@ -6,10 +6,12 @@
 <h1>{{ data['name'] }}</h1>
 
 <h3>
-{% for item in data['location']['display_address'] %}
-{{ item }}
-{% endfor %}
+    {% for item in data['location']['display_address'] %}
+    {{ item }}
+    {% endfor %}
 </h3>
+
+<button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
 
 <div id="yelp-image">
     <img src="{{ data['image_url'] }}">
@@ -18,16 +20,38 @@
 <h4>Price: {{ data['price'] }}</h4>
 
 <div id="transactions">
-{{ data['transactions'] }}
+    {% for item in data['transactions'] %}
+    <p>{{ item }}</p>
+    {% endfor %}
 </div>
 
 <div id="hours">
-{{ data['hours'] }}
+    <h4>Hours</h4>
+    <p>Sunday: {{ data['hours'][0]['open'][6]['start'] }} - 
+        {{ data['hours'][0]['open'][6]['end'] }}
+    </p>
+    <p>Monday: {{ data['hours'][0]['open'][0]['start'] }} - 
+        {{ data['hours'][0]['open'][0]['end'] }}
+    </p>
+    <p>Tuesday: {{ data['hours'][0]['open'][1]['start'] }} - 
+        {{ data['hours'][0]['open'][1]['end'] }}
+    </p>
+    <p>Wednesday: {{ data['hours'][0]['open'][2]['start'] }} - 
+        {{ data['hours'][0]['open'][2]['start'] }}
+    </p>
+    <p>Thursday: {{ data['hours'][0]['open'][3]['start'] }} - 
+        {{ data['hours'][0]['open'][3]['end'] }}
+    </p>
+    <p>Friday: {{ data['hours'][0]['open'][4]['start'] }} - 
+        {{ data['hours'][0]['open'][4]['end'] }}
+    </p>
+    <p>Saturday: {{ data['hours'][0]['open'][5]['start'] }} - 
+        {{ data['hours'][0]['open'][5]['end'] }}
+    </p>
 </div>
 
 <h4>Contact: {{ data['display_phone'] }}</h4>
 
-{% endblock %}
+<script src="/static/js/restaurant.js"></script>
 
-<!-- Things to include: name, image_url, display_phone, display_address,
-photos ?, price, hours, transactions -->
+{% endblock %}

@@ -1,7 +1,8 @@
 from flask import (Flask, render_template, request, flash, session,
-                   redirect)
+                   redirect, jsonify)
 from model import connect_to_db, db
 import crud
+import datetime
 import os
 import math
 import requests
@@ -11,6 +12,26 @@ app.secret_key = "REPLACE ME LATER"
 
 YELP_API_KEY = os.environ['YELP_KEY']
 # MAPS_API_KEY = os.environ['MAPS_KEY']
+
+# Helper functions
+def get_restaurant_info(yelp_id):
+    url = f'https://api.yelp.com/v3/businesses/{yelp_id}'
+    payload = {
+        'id': yelp_id
+    }
+    headers = {
+        'accept': 'application/json',
+        'Authorization': f'Bearer {YELP_API_KEY}',
+    }
+
+    response = requests.get(url, params=payload, headers=headers)
+    data = response.json()
+
+    restaurant_dict = {'address': " ".join(data['location']['display_address']), 'res_name':data['name'],
+                       'yelp_id': yelp_id}
+
+    return restaurant_dict
+
 
 
 @app.route('/')
@@ -123,6 +144,8 @@ def get_search_results():
                 db.session.add(new_restaurant)
         db.session.commit()           
     elif response.status_code == 400:
+        data = response.json()
+        print(data)
         restaurants = []
 
     return render_template('search-results.html',
@@ -146,8 +169,60 @@ def show_restaurant_page(id):
     response = requests.get(url, params=payload, headers=headers)
     data = response.json()
 
+    # convert hours from military time to standard time
+    for hours in data['hours'][0]['open']:
+        for item in hours:
+            if item == 'start' or item == 'end':
+                military_hour = hours[item]
+                hour = datetime.datetime.strptime(military_hour, '%H%M').strftime('%I:%M %p')
+                hours[item] = hour
+
     return render_template('restaurant-details.html',
                            data=data)
+
+
+@app.route('/addvisit', methods=['POST'])
+def add_visit():
+    """Add restaurant to a user's visited restaurants."""
+
+    yelp_restaurant_id = request.json.get('restaurantid')
+    user = crud.get_user_by_id(session.get('user'))
+    restaurant = crud.get_restaurant_by_yelp_id(yelp_restaurant_id)
+
+    if restaurant:
+        new_visit = crud.add_visit(user.user_id, restaurant.restaurant_id)
+    else:
+        restaurant_info = get_restaurant_info(yelp_restaurant_id)
+        new_restaurant = crud.create_restaurant(name=restaurant_info['res_name'], address=restaurant_info['address'],
+                                                yelp_id=restaurant_info['yelp_id'])
+        db.session.add(new_restaurant)
+        db.session.commit()
+
+        new_visit = crud.add_visit(user.user_id, new_restaurant.restaurant_id)
+
+    db.session.add(new_visit)
+    db.session.commit()
+
+    return jsonify({'code': 'Visit registered!'})
+
+
+
+    #there needs to be a button on restaurant details page with restaurant id as value
+    #in js, select that button and give an event listener for when it's clicked
+    #when clicked, fetch from a route in your server
+    #server route receives the package w/restaurant id
+    #create instance of restaurant visit using restaurant id + user id in session
+    #send success response back to js
+    #in js, get success message and maybe turn into an alert
+    #maybe disable the button after that
+    #could have a button that starts as hidden on the restaurant details page
+        #unvisit button
+    #when rendering restaurant details page, check if user has a visit for that particular restaurant
+        #get a boolean value
+        #send that boolean into the template
+    #use a jinja conditional to determine if remove/add visit button is visible
+    #in js, after the server sends the data back, hide button and turn other button on
+    #get add visit button working first
 
 
 

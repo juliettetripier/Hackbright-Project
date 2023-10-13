@@ -26,12 +26,17 @@ def create_restaurant(name, address, yelp_id):
 def create_list(user_id, name, description):
     """Create and return a new list belonging to a user."""
 
-    list = List(user_id=user_id, name=name, description=description)
+    list = Wishlist(user_id=user_id, name=name, description=description)
 
     return list
 
 
-# def add_visit()
+def add_visit(user_id, restaurant_id):
+    """Create and return an instance of a user visiting a restaurant."""
+
+    visit = RestaurantVisit(user_id=user_id, restaurant_id=restaurant_id)
+
+    return visit
     
 
 # def add_tag()
@@ -69,5 +74,5 @@ def get_user_by_username(username):
 def get_restaurant_by_yelp_id(yelp_id):
     """Return a restaurant object with the given Yelp ID."""
 
-    return User.query.filter(yelp_id == Restaurant.yelp_id).first()
+    return Restaurant.query.filter(yelp_id == Restaurant.yelp_id).first()
 
