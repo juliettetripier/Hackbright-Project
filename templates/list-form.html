@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Create a new list!{% endblock %}
+
+{% block body %}
+
+<h1>Create a New List</h1>
+
+<form action="/newlist/go">
+    <div>
+        <label for="listname">List Name</label>
+        <input id="listname" type="text" name="listname" required> *
+    </div>
+
+    <br>
+
+    <div>
+        <label for="description">Description</label>
+        <input id="description" type="text" name="description">
+    </div>
+
+    <br>
+
+    <div>
+        <input type="submit" value="Create List">
+    </div>
+</form> 
+
+<p> Here are some list ideas to get you started: </p>
+<ul>
+    <li>Wishlist</li>
+    <li>Date Night Ideas</li>
+    <li>Taco Tuesday</li>
+    <li>Summer Eats</li>
+    <li>...or any other thing you want to keep track of!</li>
+</ul>
+
+
+{% endblock %}

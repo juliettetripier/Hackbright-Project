@@ -230,22 +230,33 @@ def remove_visit():
     return jsonify({'code': 'Visit deleted!'})
 
 
-    #there needs to be a button on restaurant details page with restaurant id as value
-    #in js, select that button and give an event listener for when it's clicked
-    #when clicked, fetch from a route in your server
-    #server route receives the package w/restaurant id
-    #create instance of restaurant visit using restaurant id + user id in session
-    #send success response back to js
-    #in js, get success message and maybe turn into an alert
-    #maybe disable the button after that
-    #could have a button that starts as hidden on the restaurant details page
-        #unvisit button
-    #when rendering restaurant details page, check if user has a visit for that particular restaurant
-        #get a boolean value
-        #send that boolean into the template
-    #use a jinja conditional to determine if remove/add visit button is visible
-    #in js, after the server sends the data back, hide button and turn other button on
-    #get add visit button working first
+@app.route('/newlist')
+def show_new_list_form():
+    """Show the form to create a new list."""
+
+    user = crud.get_user_by_id(session.get('user'))
+    if user:
+        return render_template('list-form.html')
+    else:
+        flash('Please log in before making a list.')
+        return redirect('/')
+    
+
+@app.route('/newlist/go')
+def create_new_list():
+    """Create new list."""
+
+    user = crud.get_user_by_id(session.get('user'))
+    list_name = request.args.get('listname')
+    description = request.args.get('description')
+
+    new_list = crud.create_list(user.user_id, list_name, description)
+
+    db.session.add(new_list)
+    db.session.commit()
+    flash('List created successfully!')
+
+    return redirect('/profile')
 
 
 

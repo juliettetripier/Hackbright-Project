@@ -12,13 +12,31 @@
 <p><a href="/search">Search for restaurants!</a></p>
 
 <div id="visits">
-    <p>{{ user.username }}'s visited restaurants</p>
+    <h3>{{ user.username }}'s visited restaurants</h3>
     <ul>
-    {% for visit in user.visits %}
-    <li>{{ visit.name }}</li>
-    {% endfor %}
+        {% if user.visits %}
+        {% for visit in user.visits %}
+            <li>{{ visit.name }}</li>
+        {% endfor %}
+        {% else %}
+            {{ user.username }} hasn't visited any restaurants yet.
+        {% endif %}
     </ul>
 
+</div>
+
+<div id="lists">
+    <h3>{{ user.username }}'s lists</h3>
+    <a href="/newlist">Create a list!</a>
+    <ul>
+        {% if user.lists %}
+            {% for list in user.lists %}
+                <li>{{ list.name }}</li>
+            {% endfor %}
+        {% else %}
+            {{ user.username }} hasn't made any lists yet.
+        {% endif %}
+    </ul>
 </div>
 
 {% endblock %}

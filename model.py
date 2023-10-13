@@ -15,7 +15,7 @@ class User(db.Model):
     username = db.Column(db.String, unique=True)
     password = db.Column(db.String)
 
-    lists = db.relationship("Wishlist", secondary="list_items", back_populates="user")
+    lists = db.relationship("Wishlist", back_populates="user")
     achievements = db.relationship("Achievement", secondary="user_achievements", back_populates="users")
     tags = db.relationship("Tag", secondary="user_tags", back_populates="users")
     visits = db.relationship("Restaurant", secondary="restaurant_visits", back_populates="visitors")
