@@ -27,11 +27,11 @@
 
 <div id="lists">
     <h3>{{ user.username }}'s lists</h3>
-    <a href="/newlist">Create a list!</a>
+    <a href="/newlist">Create a new list!</a>
     <ul>
         {% if user.lists %}
             {% for list in user.lists %}
-                <li>{{ list.name }}</li>
+                <li><a href="/list/{{ list.list_id }}">{{ list.name }}</a></li>
             {% endfor %}
         {% else %}
             {{ user.username }} hasn't made any lists yet.

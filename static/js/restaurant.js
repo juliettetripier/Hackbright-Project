@@ -1,6 +1,8 @@
 const addVisitButton = document.querySelector('#visit-button');
 const removeVisitButton = document.querySelector('#unvisit-button');
 
+const addToListButton = document.querySelector('#add-to-list-button');
+
 function addVisit() {
 
     const formInputs = {
@@ -45,5 +47,25 @@ function removeVisit() {
         })
 }
 
+function addToList() {
+    const formInputs = {
+        listid: document.querySelector('#which-list').value,
+        restaurantid: document.querySelector('#visit-button').value
+    };
+
+    fetch('/addtolist', {
+        method: 'POST',
+        body: JSON.stringify(formInputs),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    })
+        .then((response) => response.json())
+        .then((responsejson) => {
+            alert(responsejson['code']);
+        })
+}
+
 addVisitButton.addEventListener('click', addVisit);
 removeVisitButton.addEventListener('click', removeVisit);
+addToListButton.addEventListener('click', addToList);

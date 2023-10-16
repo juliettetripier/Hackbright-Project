@@ -42,18 +42,19 @@ def add_visit(user_id, restaurant_id):
 # def add_tag()
     
 
-# def add_list_item()
-#     # query - get me all the lists from this person
-#     # have user pick lists to add to and submit form
-#     # this is how you get the list id
+def add_list_item(user_id, restaurant_id, list_id):
+    """Create and return an instance of a user adding a restaurant to a list."""
+
+    list_item = ListItem(user_id=user_id, restaurant_id=restaurant_id, list_id=list_id)
+
+    return list_item
+
 
 
 def add_achievement(user, achievement):
     """Add an achievement to a user."""
 
     user.achievements.append(achievement)
-    # no need to return anything
-    # remember to do a db.commit manually in server route
 
 
 def get_user_by_id(user_id):
@@ -76,9 +77,24 @@ def get_restaurant_by_yelp_id(yelp_id):
 
     return Restaurant.query.filter(yelp_id == Restaurant.yelp_id).first()
 
+def get_restaurant_by_internal_id(restaurant_id):
+    """Return a restaurant object with the given internal ID."""
+
+    return Restaurant.query.get(restaurant_id)
+
 def get_visit(user_id, restaurant_id):
     """Takes in a user id and restaurant id and returns the corresponding restaurant visit object."""
 
     return RestaurantVisit.query.filter_by(user_id=user_id, restaurant_id=restaurant_id).first()
+
+def get_list_by_list_id(list_id):
+    """Return a wishlist object with the given list id."""
+
+    return Wishlist.query.get(list_id)
+
+def get_list_items(list_id):
+    """Return all items in a wishlist with the specified list id."""
+
+    return ListItem.query.filter_by(list_id=list_id).all()
 
 

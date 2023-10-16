@@ -179,13 +179,15 @@ def show_restaurant_page(id):
     
     # check if user has visited restaurant
     user_id = session.get('user')
+    user = crud.get_user_by_id(user_id)
     restaurant = crud.get_restaurant_by_yelp_id(data['id'])
     restaurant_id = restaurant.restaurant_id
     visit = crud.get_visit(user_id, restaurant_id)
 
     return render_template('restaurant-details.html',
                            data=data,
-                           visit=visit)
+                           visit=visit,
+                           user=user)
 
 
 @app.route('/addvisit', methods=['POST'])
@@ -257,6 +259,45 @@ def create_new_list():
     flash('List created successfully!')
 
     return redirect('/profile')
+
+
+@app.route('/list/<id>')
+def show_list(id):
+    """Show the contents of a user's list."""
+
+    user = crud.get_user_by_id(session.get('user'))
+    wishlist = crud.get_list_by_list_id(id)
+    list_items = crud.get_list_items(id)
+
+    restaurants = []
+    if list_items:
+        for item in list_items:
+            restaurant = crud.get_restaurant_by_internal_id(item.restaurant_id)
+            restaurants.append(restaurant)
+
+
+    return render_template('/list-details.html',
+                           user=user,
+                           list=wishlist,
+                           restaurants=restaurants)
+
+
+@app.route('/addtolist', methods=['POST'])
+def add_to_list():
+    """Add a restaurant to a user's list."""
+
+    user = crud.get_user_by_id(session.get('user'))
+    list_id = request.json.get('listid')
+    yelp_id = request.json.get('restaurantid')
+    restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
+
+    new_list_item = crud.add_list_item(user.user_id, restaurant.restaurant_id, list_id)
+
+    db.session.add(new_list_item)
+    db.session.commit()
+
+    return jsonify({'code': 'Restaurant successfully added to list!'})
+
 
 
 

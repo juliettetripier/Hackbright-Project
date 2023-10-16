@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}{{ list.name }}{% endblock %}
+
+{% block body %}
+
+<h1>{{ list.name }}</h1>
+
+<div id="list-items">
+    {% if restaurants %}
+        <ul>
+            {% for item in restaurants %}
+                <li><a href="/restaurant/{{ item.yelp_id }}">{{ item.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p><i>This list is currently empty.</i></p>
+        <p><i><a href="/search">Search for restaurants</a> to add to your list!</i></p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -11,6 +11,7 @@
     {% endfor %}
 </h3>
 
+<div id="visit-div">
 {% if visit %}
     <button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}" style="display: none">I ate here!</button>
     <button type="button" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}">Click here to unvisit</button>
@@ -18,6 +19,22 @@
     <button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
     <button type="button" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}" style="display: none">Click here to unvisit</button>
 {% endif %}
+</div>
+
+<div id="list-div">
+    <h3>Add to List</h3>
+    {% if user.lists %}
+        <select name="list-dropdown" id="which-list">
+            {% for list in user.lists %}
+                <option value="{{ list.list_id }}">{{ list.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="button" id="add-to-list-button">Add</button>
+    {% else %}
+        <p>You have no lists!</p>
+        <p><a href="/newlist">Click here</a> to make a list.</p>
+    {% endif %}
+</div>
 
 <div id="yelp-image">
     <img src="{{ data['image_url'] }}">
