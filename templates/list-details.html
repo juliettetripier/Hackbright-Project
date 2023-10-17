@@ -5,6 +5,8 @@
 
 <h1>{{ list.name }}</h1>
 
+<p>{{ list.description }}</p>
+
 <div id="list-items">
     {% if restaurants %}
         <ul>
@@ -17,5 +19,21 @@
         <p><i><a href="/search">Search for restaurants</a> to add to your list!</i></p>
     {% endif %}
 </div>
+
+{% if restaurants %}
+    <form action="/delete-list-item">
+        <div id="delete-item-div">
+            <h3>Delete an item?</h3>
+                <select name="item-dropdown" id="which-item">
+                    {% for restaurant in restaurants %}
+                        <option value="{{ restaurant.restaurant_id }}">{{ restaurant.name }}</option>
+                    {% endfor %}
+                    <input type="submit" id="delete-submit" value="Delete">
+                </select>
+                <input type="hidden" value="{{ list.list_id }}" name="list-id" id="list-id">
+        </div>
+    </form>
+{% endif %}
+
 
 {% endblock %}

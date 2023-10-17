@@ -97,4 +97,9 @@ def get_list_items(list_id):
 
     return ListItem.query.filter_by(list_id=list_id).all()
 
+def get_list_item(list_id, restaurant_id):
+    """Return one list item from the specified list corresponding to the specified restaurant."""
+
+    return ListItem.query.filter_by(list_id=list_id, restaurant_id=restaurant_id).first()
+
 

@@ -299,7 +299,21 @@ def add_to_list():
     return jsonify({'code': 'Restaurant successfully added to list!'})
 
 
+@app.route('/delete-list-item')
+def delete_list_item():
+    """Delete a restaurant from a user's list."""
 
+    user = crud.get_user_by_id(session.get('user'))
+    restaurant_id = request.args.get('item-dropdown')
+    list_id = request.args.get('list-id')
+
+    list_item = crud.get_list_item(list_id, restaurant_id)
+
+    db.session.delete(list_item)
+    db.session.commit()
+    
+    flash('Item deleted!')
+    return redirect(f'/list/{list_id}')
 
 
 if __name__ == "__main__":
