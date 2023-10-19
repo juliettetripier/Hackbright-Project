@@ -17,14 +17,35 @@ with server.app.app_context():
     user1 = model.User(email="test@test.com", username="user1", password="password2")
     model.db.session.add(user1)
 
+    user2 = model.User(email="juliette@juliette.com", username="juliette", password="juliette")
+    model.db.session.add(user2)
+
     restaurant1 = model.Restaurant(name="Starbucks", address="123 Street Road")
     model.db.session.add(restaurant1)
 
     achievement1 = model.Achievement(name="You did it", description="wow congrats", points=5)
     model.db.session.add(achievement1)
 
-    tag1 = model.Tag(name="Vegan")
+    tag1 = model.Tag(name="Vegetarian")
     model.db.session.add(tag1)
+    tag2 = model.Tag(name="Vegan")
+    model.db.session.add(tag2)
+    tag3 = model.Tag(name="Gluten-free")
+    model.db.session.add(tag3)
+    tag4 = model.Tag(name="Halal")
+    model.db.session.add(tag4)
+    tag5 = model.Tag(name="Kosher")
+    model.db.session.add(tag5)
+    tag6 = model.Tag(name="Family-friendly")
+    model.db.session.add(tag6)
+    tag7 = model.Tag(name="Cheap Eats")
+    model.db.session.add(tag7)
+    tag8 = model.Tag(name="Woman-owned")
+    model.db.session.add(tag8)
+    tag9 = model.Tag(name="Black-owned")
+    model.db.session.add(tag9)
+    tag10 = model.Tag(name="Dog-friendly")
+    model.db.session.add(tag10)
 
     user1.achievements.append(achievement1)
 

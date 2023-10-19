@@ -107,6 +107,7 @@ class Tag(db.Model):
 
     users = db.relationship("User", secondary="user_tags", back_populates="tags")
     restaurants = db.relationship("Restaurant", secondary="user_tags", back_populates="tags")
+    usertags = db.relationship("UserTag", back_populates="tag")
 
     def __repr__(self):
         return f'<Tag tag_id={self.tag_id} name={self.name}>'
@@ -126,6 +127,8 @@ class UserTag(db.Model):
                        db.ForeignKey('tags.tag_id'))
     restaurant_id = db.Column(db.Integer,
                               db.ForeignKey('restaurants.restaurant_id'))
+    
+    tag = db.relationship("Tag", back_populates="usertags")
     
     
 class Wishlist(db.Model):

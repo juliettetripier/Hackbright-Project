@@ -33,6 +33,31 @@
     {% else %}
         <p>You have no lists!</p>
         <p><a href="/newlist">Click here</a> to make a list.</p>
+        <input type="hidden" id="add-to-list-button">
+    {% endif %}
+</div>
+
+<div id="tags-div">
+    <h3>Add a Tag</h3>
+    <select name="tags-dropdown" id="which-tag">
+        {% for tag in tags %}
+            <option value="{{ tag.tag_id }}">{{ tag.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" id="add-tag-button">Add Tag</button>
+    {% if user_tags %}
+        <div id="edit-tags">
+            <form action="/deletetag" method="POST">
+                <h5>Edit Your Tags</h5>
+                {% for tag in user_tags %}
+                    <input type="checkbox" id="{{ tag.tag_id }}" name="tag_id" value="{{ tag.tag_id }}">
+                    <label for="{{ tag.tag_id }}">{{ tag.tag.name }}</label>
+                    <br>
+                {% endfor %}
+                <input type="hidden" name="restaurant_yelp_id" value="{{ data['id'] }}">
+                <button type="submit">Delete Selected Tags</button>
+            </form>
+        </div>
     {% endif %}
 </div>
 

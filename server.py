@@ -82,7 +82,8 @@ def show_profile():
 
     user = crud.get_user_by_id(session.get('user'))
     if user:
-        return render_template('profile.html', user=user)
+        return render_template('profile.html', 
+                               user=user)
     else:
         flash('Please log in to view your profile page.')
         return redirect('/')
@@ -184,10 +185,18 @@ def show_restaurant_page(id):
     restaurant_id = restaurant.restaurant_id
     visit = crud.get_visit(user_id, restaurant_id)
 
+    # get all tags from DB
+    tags = crud.get_all_tags()
+
+    #get the user's tags for this restaurant, if any
+    user_tags_for_restaurant = crud.get_user_tags_by_restaurant_and_user(user_id, restaurant_id)
+
     return render_template('restaurant-details.html',
                            data=data,
                            visit=visit,
-                           user=user)
+                           user=user,
+                           tags=tags,
+                           user_tags=user_tags_for_restaurant)
 
 
 @app.route('/addvisit', methods=['POST'])
@@ -303,17 +312,48 @@ def add_to_list():
 def delete_list_item():
     """Delete a restaurant from a user's list."""
 
-    user = crud.get_user_by_id(session.get('user'))
     restaurant_id = request.args.get('item-dropdown')
     list_id = request.args.get('list-id')
 
     list_item = crud.get_list_item(list_id, restaurant_id)
-
     db.session.delete(list_item)
     db.session.commit()
     
     flash('Item deleted!')
     return redirect(f'/list/{list_id}')
+
+
+@app.route('/addtag', methods=['POST'])
+def add_tag():
+    """Add an instance of a user assigning a tag to a restaurant."""
+
+    user_id = session.get('user')
+    yelp_id = request.json.get('restaurantid')
+    restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
+    tag_id = request.json.get('tagid')
+
+    user_tag = crud.create_user_tag(user_id, restaurant.restaurant_id, tag_id)
+    db.session.add(user_tag)
+    db.session.commit()
+
+    return jsonify({'code': 'Tag successfully added!'})
+
+
+@app.route('/deletetag', methods=['POST'])
+def delete_tag():
+    """Remove an instance of a user assigning a tag to a restaurant."""
+    tags_to_delete = request.form.getlist('tag_id')
+    yelp_id = request.form.get('restaurant_yelp_id')
+    restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
+
+    for tag in tags_to_delete:
+        tag_to_delete = crud.get_user_tag_by_restaurant_and_tag_id(tag, restaurant.restaurant_id)
+        db.session.delete(tag_to_delete)
+    db.session.commit()
+    flash('Tag(s) successfully deleted!')
+
+    return redirect(f'/restaurant/{yelp_id}')
+
 
 
 if __name__ == "__main__":

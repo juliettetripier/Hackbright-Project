@@ -3,6 +3,9 @@ const removeVisitButton = document.querySelector('#unvisit-button');
 
 const addToListButton = document.querySelector('#add-to-list-button');
 
+const addTagButton = document.querySelector('#add-tag-button');
+
+
 function addVisit() {
 
     const formInputs = {
@@ -66,6 +69,26 @@ function addToList() {
         })
 }
 
+function addTag() {
+    const formInputs = {
+        tagid: document.querySelector('#which-tag').value,
+        restaurantid: document.querySelector('#visit-button').value
+    };
+
+    fetch('/addtag', {
+        method: 'POST',
+        body: JSON.stringify(formInputs),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+    })
+        .then((response) => response.json())
+        .then((responsejson) => {
+            alert(responsejson['code']);
+        })
+}
+
 addVisitButton.addEventListener('click', addVisit);
 removeVisitButton.addEventListener('click', removeVisit);
 addToListButton.addEventListener('click', addToList);
+addTagButton.addEventListener('click', addTag);

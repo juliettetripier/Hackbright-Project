@@ -39,9 +39,6 @@ def add_visit(user_id, restaurant_id):
     return visit
     
 
-# def add_tag()
-    
-
 def add_list_item(user_id, restaurant_id, list_id):
     """Create and return an instance of a user adding a restaurant to a list."""
 
@@ -50,6 +47,12 @@ def add_list_item(user_id, restaurant_id, list_id):
     return list_item
 
 
+def create_user_tag(user_id, restaurant_id, tag_id):
+    """Create and return an instance of a user adding a tag to a restaurant."""
+
+    user_tag = UserTag(user_id=user_id, restaurant_id=restaurant_id, tag_id=tag_id)
+
+    return user_tag
 
 def add_achievement(user, achievement):
     """Add an achievement to a user."""
@@ -62,44 +65,83 @@ def get_user_by_id(user_id):
 
     return User.query.get(user_id)
 
+
 def get_user_by_email(email):
     """Take an email address and return the user object with that email address."""
 
     return User.query.filter(email == User.email).first()
+
 
 def get_user_by_username(username):
     """Take a username and return the user object with that username."""
 
     return User.query.filter(username == User.username).first()
 
+
 def get_restaurant_by_yelp_id(yelp_id):
     """Return a restaurant object with the given Yelp ID."""
 
     return Restaurant.query.filter(yelp_id == Restaurant.yelp_id).first()
+
 
 def get_restaurant_by_internal_id(restaurant_id):
     """Return a restaurant object with the given internal ID."""
 
     return Restaurant.query.get(restaurant_id)
 
+
 def get_visit(user_id, restaurant_id):
     """Takes in a user id and restaurant id and returns the corresponding restaurant visit object."""
 
     return RestaurantVisit.query.filter_by(user_id=user_id, restaurant_id=restaurant_id).first()
+
 
 def get_list_by_list_id(list_id):
     """Return a wishlist object with the given list id."""
 
     return Wishlist.query.get(list_id)
 
+
 def get_list_items(list_id):
     """Return all items in a wishlist with the specified list id."""
 
     return ListItem.query.filter_by(list_id=list_id).all()
 
+
 def get_list_item(list_id, restaurant_id):
     """Return one list item from the specified list corresponding to the specified restaurant."""
 
     return ListItem.query.filter_by(list_id=list_id, restaurant_id=restaurant_id).first()
+
+
+def get_all_tags():
+    """Return all tags in the database."""
+
+    return Tag.query.all()
+
+
+def get_tag_by_tag_id(tag_id):
+    """Return the tag with the specified tag ID."""
+
+    return Tag.query.get(tag_id)
+
+
+def get_user_tags(user_id):
+    """Return all tags assigned by the specified user."""
+
+    return UserTag.query.filter_by(user_id=user_id).all()
+
+
+def get_user_tags_by_restaurant_and_user(user_id, restaurant_id):
+    """Return all user tags for a given restaurant by a given user."""
+
+    return UserTag.query.filter_by(user_id=user_id, restaurant_id=restaurant_id).all()
+
+
+def get_user_tag_by_restaurant_and_tag_id(tag_id, restaurant_id):
+    """Return the instance of a tag being added to the specified restaurant, with the specified user tag id."""
+
+    return UserTag.query.filter_by(tag_id=tag_id, restaurant_id=restaurant_id).first()
+
 
 
