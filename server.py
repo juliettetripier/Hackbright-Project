@@ -217,10 +217,20 @@ def add_visit():
         db.session.commit()
 
         new_visit = crud.add_visit(user.user_id, new_restaurant.restaurant_id)
+    
+    # check user's previous visits to determine achievement eligibility
+    previous_visits = crud.get_all_visits(user.user_id)
+    if not previous_visits:
+        new_achievement = crud.get_achievement_by_name('Restaurant Explorer 1')
+        crud.add_achievement(user, new_achievement)
+        flash(f'New achievement earned: {new_achievement.name}')
+    elif len(previous_visits) == 4:
+        new_achievement = crud.get_achievement_by_name('Restaurant Explorer 2')
+        crud.add_achievement(user, new_achievement)
+        flash(f'New achievement earned: {new_achievement.name}')
 
     db.session.add(new_visit)
     db.session.commit()
-    print(new_visit)
 
     return jsonify({'code': 'Visit registered!'})
 
@@ -234,6 +244,17 @@ def remove_visit():
     user = crud.get_user_by_id(session.get('user'))
     
     visit = crud.get_visit(user.user_id, restaurant.restaurant_id)
+
+    # check user's previous visits to determine if an achievement should be removed
+    previous_visits = crud.get_all_visits(user.user_id)
+    if len(previous_visits) == 1:
+        achievement = crud.get_achievement_by_name('Restaurant Explorer 1')
+        achievement_to_delete = crud.get_user_achievement_by_achievement(user.user_id, achievement.achievement_id)
+        db.session.delete(achievement_to_delete)
+    elif len(previous_visits) == 5:
+        achievement = crud.get_achievement_by_name('Restaurant Explorer 2')
+        achievement_to_delete = crud.get_user_achievement_by_achievement(user.user_id, achievement.achievement_id)
+        db.session.delete(achievement_to_delete)
 
     db.session.delete(visit)
     db.session.commit()
@@ -262,6 +283,14 @@ def create_new_list():
     description = request.args.get('description')
 
     new_list = crud.create_list(user.user_id, list_name, description)
+
+    # check how many lists this user has to determine achievement eligibility
+    previous_lists = crud.get_lists_by_user(user.user_id)
+    if not previous_lists:
+        new_achievement = crud.get_achievement_by_name('List Maker 1')
+        crud.add_achievement(user, new_achievement)
+        flash(f'New achievement earned: {new_achievement.name}')
+
 
     db.session.add(new_list)
     db.session.commit()
@@ -302,6 +331,13 @@ def add_to_list():
 
     new_list_item = crud.add_list_item(user.user_id, restaurant.restaurant_id, list_id)
 
+    # check user's previous list items to determine eligibility for achievements
+    previous_list_items = crud.get_all_list_items_by_user(user.user_id)
+    if not previous_list_items:
+        new_achievement = crud.get_achievement_by_name('Dreamer 1')
+        crud.add_achievement(user, new_achievement)
+        flash(f'New achievement earned: {new_achievement.name}')
+
     db.session.add(new_list_item)
     db.session.commit()
 
@@ -312,8 +348,16 @@ def add_to_list():
 def delete_list_item():
     """Delete a restaurant from a user's list."""
 
+    user_id = session.get('user')
     restaurant_id = request.args.get('item-dropdown')
     list_id = request.args.get('list-id')
+
+    # check user's list items to determine if an achievement should be removed
+    previous_list_items = crud.get_all_list_items_by_user(user_id)
+    if len(previous_list_items) == 1:
+        achievement = crud.get_achievement_by_name('Dreamer 1')
+        achievement_to_delete = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
+        db.session.delete(achievement_to_delete)
 
     list_item = crud.get_list_item(list_id, restaurant_id)
     db.session.delete(list_item)
@@ -328,9 +372,21 @@ def add_tag():
     """Add an instance of a user assigning a tag to a restaurant."""
 
     user_id = session.get('user')
+    user = crud.get_user_by_id(user_id)
     yelp_id = request.json.get('restaurantid')
     restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
     tag_id = request.json.get('tagid')
+
+    # check user's previous tags to determine achievement eligibility
+    previous_tags = crud.get_user_tags(user_id)
+    if not previous_tags:
+        new_achievement = crud.get_achievement_by_name('Tagger 1')
+        crud.add_achievement(user, new_achievement)
+        flash(f'New achievement earned: {new_achievement.name}')
+    elif len(previous_tags) == 4:
+        new_achievement = crud.get_achievement_by_name('Tagger 2')
+        crud.add_achievement(user, new_achievement)
+        flash(f'New achievement earned: {new_achievement.name}')
 
     user_tag = crud.create_user_tag(user_id, restaurant.restaurant_id, tag_id)
     db.session.add(user_tag)
@@ -342,6 +398,8 @@ def add_tag():
 @app.route('/deletetag', methods=['POST'])
 def delete_tag():
     """Remove an instance of a user assigning a tag to a restaurant."""
+
+    user_id = session.get('user')
     tags_to_delete = request.form.getlist('tag_id')
     yelp_id = request.form.get('restaurant_yelp_id')
     restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
@@ -351,6 +409,24 @@ def delete_tag():
         db.session.delete(tag_to_delete)
     db.session.commit()
     flash('Tag(s) successfully deleted!')
+
+    # check how many tags the user now has, to determine if an achievement should be removed
+    user_tags = crud.get_user_tags(user_id)
+    print(f'USER TAGS {user_tags}')
+    if len(user_tags) == 0:
+            achievement2 = crud.get_achievement_by_name('Tagger 1')
+            user_achievement2 = crud.get_user_achievement_by_achievement(user_id, achievement2.achievement_id)
+            print(f'ACHIEVEMENT 2 {achievement2}')
+            db.session.delete(user_achievement2)
+    elif len(user_tags) < 5:
+        achievement = crud.get_achievement_by_name('Tagger 2')
+        print(f'ACHIEVEMENT {achievement}')
+        user_achievement = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
+        print(f'USER ACHIEVEMENT {user_achievement}')
+        if user_achievement:
+            db.session.delete(user_achievement)
+
+    db.session.commit()
 
     return redirect(f'/restaurant/{yelp_id}')
 

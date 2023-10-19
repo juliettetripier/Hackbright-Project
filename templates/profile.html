@@ -11,7 +11,7 @@
 
 <p><a href="/search">Search for restaurants!</a></p>
 
-<div id="visits">
+<div id="visits-div">
     <h3>{{ user.username }}'s visited restaurants</h3>
     <ul>
         {% if user.visits %}
@@ -25,7 +25,7 @@
 
 </div>
 
-<div id="lists">
+<div id="lists-div">
     <h3>{{ user.username }}'s lists</h3>
     <a href="/newlist">Create a new list!</a>
     <ul>
@@ -37,6 +37,21 @@
             {{ user.username }} hasn't made any lists yet.
         {% endif %}
     </ul>
+</div>
+
+<div id="achievements-div">
+    <h3>{{ user.username }}'s achievements</h3>
+    {% if user.achievements %}
+        {% for achievement in user.achievements %}
+            <div>
+                <h5>{{ achievement.name }}</h5>
+                <i>{{ achievement.description }}</i>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>{{ user.username }} hasn't earned any achievements yet.</p>
+        <p>Try creating a wishlist or marking a restaurant as visited and see what happens!</p>
+    {% endif %}
 </div>
 
 {% endblock %}

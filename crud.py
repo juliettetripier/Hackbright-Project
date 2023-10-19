@@ -96,10 +96,22 @@ def get_visit(user_id, restaurant_id):
     return RestaurantVisit.query.filter_by(user_id=user_id, restaurant_id=restaurant_id).first()
 
 
+def get_all_visits(user_id):
+    """Returns all visits from the specified user."""
+
+    return RestaurantVisit.query.filter_by(user_id=user_id).all()
+
+
 def get_list_by_list_id(list_id):
     """Return a wishlist object with the given list id."""
 
     return Wishlist.query.get(list_id)
+
+
+def get_lists_by_user(user_id):
+    """Return all lists created by the specified user."""
+
+    return Wishlist.query.filter_by(user_id=user_id).all()
 
 
 def get_list_items(list_id):
@@ -112,6 +124,12 @@ def get_list_item(list_id, restaurant_id):
     """Return one list item from the specified list corresponding to the specified restaurant."""
 
     return ListItem.query.filter_by(list_id=list_id, restaurant_id=restaurant_id).first()
+
+
+def get_all_list_items_by_user(user_id):
+    """Return all list items added by the specified user, across all their lists."""
+
+    return ListItem.query.filter_by(user_id=user_id).all()
 
 
 def get_all_tags():
@@ -144,4 +162,19 @@ def get_user_tag_by_restaurant_and_tag_id(tag_id, restaurant_id):
     return UserTag.query.filter_by(tag_id=tag_id, restaurant_id=restaurant_id).first()
 
 
+def get_all_user_achievements(user_id):
+    """Return all achievements earned by the specified user."""
 
+    return UserAchievement.query.filter_by(user_id=user_id).all()
+
+
+def get_user_achievement_by_achievement(user_id, achievement_id):
+    """Return the instance of the specified user earning the specified achievement."""
+
+    return UserAchievement.query.filter_by(user_id=user_id, achievement_id=achievement_id).first()
+
+
+def get_achievement_by_name(name):
+    """Return the achievement object with the specified name."""
+
+    return Achievement.query.filter_by(name=name).first()
