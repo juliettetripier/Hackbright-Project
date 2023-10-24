@@ -408,6 +408,43 @@ def delete_list_item():
     return redirect(f'/list/{list_id}')
 
 
+@app.route('/delete-list')
+def delete_list():
+    """Delete a user's list."""
+
+    list_id = request.args.get('list-id')
+    print(list_id)
+    user_id = session.get('user')
+
+    list_to_delete = crud.get_list_by_list_id(list_id)
+    items_to_delete = crud.get_list_items(list_id)
+
+    # check user's lists to determine if an achievement should be removed
+    previous_lists = crud.get_lists_by_user(user_id)
+    if len(previous_lists) == 1:
+        achievement = crud.get_achievement_by_name('List Maker 1')
+        achievement_to_delete = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
+        db.session.delete(achievement_to_delete)
+
+    db.session.delete(list_to_delete)
+
+    # check user's list items to determine if an achievement should be removed
+    if items_to_delete:
+        num_items_deleted = len(items_to_delete)
+        all_list_items = crud.get_all_list_items_by_user(user_id)
+        list_items_remaining = len(all_list_items) - num_items_deleted
+        if list_items_remaining == 0:
+            achievement = crud.get_achievement_by_name('Dreamer 1')
+            db.session.delete(achievement)
+        for item in items_to_delete:
+            db.session.delete(item)
+
+    db.session.commit()
+
+    flash('List deleted!')
+    return redirect('/profile')
+
+
 @app.route('/addtag', methods=['POST'])
 def add_tag():
     """Add an instance of a user assigning a tag to a restaurant."""
@@ -453,17 +490,13 @@ def delete_tag():
 
     # check how many tags the user now has, to determine if an achievement should be removed
     user_tags = crud.get_user_tags(user_id)
-    print(f'USER TAGS {user_tags}')
     if len(user_tags) == 0:
             achievement2 = crud.get_achievement_by_name('Tagger 1')
             user_achievement2 = crud.get_user_achievement_by_achievement(user_id, achievement2.achievement_id)
-            print(f'ACHIEVEMENT 2 {achievement2}')
             db.session.delete(user_achievement2)
-    elif len(user_tags) < 5:
+    if len(user_tags) < 5:
         achievement = crud.get_achievement_by_name('Tagger 2')
-        print(f'ACHIEVEMENT {achievement}')
         user_achievement = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
-        print(f'USER ACHIEVEMENT {user_achievement}')
         if user_achievement:
             db.session.delete(user_achievement)
 

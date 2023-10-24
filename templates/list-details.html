@@ -28,12 +28,17 @@
                     {% for restaurant in restaurants %}
                         <option value="{{ restaurant.restaurant_id }}">{{ restaurant.name }}</option>
                     {% endfor %}
-                    <input type="submit" id="delete-submit" value="Delete">
+                    <input type="submit" id="delete-submit" value="Delete Item">
                 </select>
                 <input type="hidden" value="{{ list.list_id }}" name="list-id" id="list-id">
         </div>
     </form>
 {% endif %}
+
+<form action="/delete-list">
+    <button type="submit" id="delete-list-button">Delete List</button>
+    <input type="hidden" value="{{ list.list_id }}" name="list-id">
+</form>
 
 
 {% endblock %}
