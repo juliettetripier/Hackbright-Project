@@ -16,7 +16,7 @@
     <ul>
         {% if user.visits %}
         {% for visit in user.visits %}
-            <li>{{ visit.name }}</li>
+            <li><a href="/restaurant/{{ visit.yelp_id }}">{{ visit.name }}</a></li>
         {% endfor %}
         {% else %}
             {{ user.username }} hasn't visited any restaurants yet.

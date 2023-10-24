@@ -75,27 +75,41 @@
 
 <div id="hours">
     <h4>Hours</h4>
-    <p>Sunday: {{ data['hours'][0]['open'][6]['start'] }} - 
-        {{ data['hours'][0]['open'][6]['end'] }}
-    </p>
-    <p>Monday: {{ data['hours'][0]['open'][0]['start'] }} - 
-        {{ data['hours'][0]['open'][0]['end'] }}
-    </p>
-    <p>Tuesday: {{ data['hours'][0]['open'][1]['start'] }} - 
-        {{ data['hours'][0]['open'][1]['end'] }}
-    </p>
-    <p>Wednesday: {{ data['hours'][0]['open'][2]['start'] }} - 
-        {{ data['hours'][0]['open'][2]['start'] }}
-    </p>
-    <p>Thursday: {{ data['hours'][0]['open'][3]['start'] }} - 
-        {{ data['hours'][0]['open'][3]['end'] }}
-    </p>
-    <p>Friday: {{ data['hours'][0]['open'][4]['start'] }} - 
-        {{ data['hours'][0]['open'][4]['end'] }}
-    </p>
-    <p>Saturday: {{ data['hours'][0]['open'][5]['start'] }} - 
-        {{ data['hours'][0]['open'][5]['end'] }}
-    </p>
+    {% if hours['Sunday']['is_closed_today'] == True %}
+        <p>Sunday: Closed </p>
+    {% else %}
+        <p>Sunday: {{ hours['Sunday']['when_open'] }}</p>
+    {% endif %}
+    {% if hours['Monday']['is_closed_today'] == True %}
+        <p>Monday: Closed </p>
+    {% else %}
+        <p>Monday: {{ hours['Monday']['when_open'] }}</p>
+    {% endif %}
+    {% if hours['Tuesday']['is_closed_today'] == True %}
+        <p>Tuesday: Closed </p>
+    {% else %}
+        <p>Tuesday: {{ hours['Tuesday']['when_open'] }}</p>
+    {% endif %}
+    {% if hours['Wednesday']['is_closed_today'] == True %}
+        <p>Wednesday: Closed </p>
+    {% else %}
+        <p>Wednesday: {{ hours['Wednesday']['when_open'] }}</p>
+    {% endif %}
+    {% if hours['Thursday']['is_closed_today'] == True %}
+        <p>Thursday: Closed </p>
+    {% else %}
+        <p>Thursday: {{ hours['Thursday']['when_open']}}</p>
+    {% endif %}
+    {% if hours['Friday']['is_closed_today'] == True %}
+        <p>Friday: Closed </p>
+    {% else %}
+        <p>Friday: {{ hours['Friday']['when_open'] }}</p>
+    {% endif %}
+    {% if hours['Saturday']['is_closed_today'] == True %}
+        <p>Saturday: Closed </p>
+    {% else %}
+        <p>Saturday: {{ hours['Saturday']['when_open'] }}</p>
+    {% endif %}
 </div>
 
 <h4>Contact: {{ data['display_phone'] }}</h4>

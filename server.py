@@ -177,6 +177,42 @@ def show_restaurant_page(id):
                 military_hour = hours[item]
                 hour = datetime.datetime.strptime(military_hour, '%H%M').strftime('%I:%M %p')
                 hours[item] = hour
+
+# make a dictionary for each day of the week
+# instead of tracking start and end, track a single string
+# the first time you come across a day
+
+    # make dictionary to hold the restaurant's hours
+    hours_dict = {'Monday': {'when_open': "", 'is_closed_today': True},
+                'Tuesday': {'when_open': "", 'is_closed_today': True},
+                'Wednesday': {'when_open': "", 'is_closed_today': True},
+                'Thursday': {'when_open': "", 'is_closed_today': True},
+                'Friday': {'when_open': "", 'is_closed_today': True},
+                'Saturday': {'when_open': "", 'is_closed_today': True},
+                'Sunday': {'when_open': "", 'is_closed_today': True}}
+
+    def set_hours(day):
+        if hours_dict[day]['when_open'] == "":
+            hours_dict[day]['when_open'] += f"{hours_info['start']} - {hours_info['end']}"
+        else:
+            hours_dict[day]['when_open'] += f", {hours_info['start']} - {hours_info['end']}"
+        hours_dict[day]['is_closed_today'] = False
+
+    for hours_info in data['hours'][0]['open']:
+        if hours_info['day'] == 0:
+            set_hours('Monday')
+        elif hours_info['day'] == 1:
+            set_hours('Tuesday')
+        elif hours_info['day'] == 2:
+            set_hours('Wednesday')
+        elif hours_info['day'] == 3:
+            set_hours('Thursday')
+        elif hours_info['day'] == 4:
+            set_hours('Friday')
+        elif hours_info['day'] == 5:
+            set_hours('Saturday')
+        elif hours_info['day'] == 6:
+            set_hours('Sunday')
     
     # check if user has visited restaurant
     user_id = session.get('user')
@@ -193,6 +229,7 @@ def show_restaurant_page(id):
 
     return render_template('restaurant-details.html',
                            data=data,
+                           hours=hours_dict,
                            visit=visit,
                            user=user,
                            tags=tags,
