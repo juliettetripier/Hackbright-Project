@@ -76,6 +76,14 @@ def login():
         return redirect('/')
     
 
+@app.route('/logout')
+def logout():
+    session.pop('user', default=None)
+
+    flash('Logged out!')
+    return redirect('/')
+    
+
 @app.route('/profile')
 def show_profile():
     """Show user profile."""
@@ -177,10 +185,6 @@ def show_restaurant_page(id):
                 military_hour = hours[item]
                 hour = datetime.datetime.strptime(military_hour, '%H%M').strftime('%I:%M %p')
                 hours[item] = hour
-
-# make a dictionary for each day of the week
-# instead of tracking start and end, track a single string
-# the first time you come across a day
 
     # make dictionary to hold the restaurant's hours
     hours_dict = {'Monday': {'when_open': "", 'is_closed_today': True},
