@@ -454,6 +454,7 @@ def add_tag():
     yelp_id = request.json.get('restaurantid')
     restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
     tag_id = request.json.get('tagid')
+    tag = crud.get_tag_by_tag_id(tag_id)
 
     # check user's previous tags to determine achievement eligibility
     previous_tags = crud.get_user_tags(user_id)
@@ -476,7 +477,7 @@ def add_tag():
         db.session.add(user_tag)
         db.session.commit()
 
-    return jsonify({'code': code, 'tag_id': tag_id})
+    return jsonify({'code': code, 'tag_id': tag_id, 'tag_name': tag.name})
 
 
 @app.route('/deletetag', methods=['POST'])
@@ -489,7 +490,7 @@ def delete_tag():
     restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
 
     for tag in tags_to_delete:
-        tag_to_delete = crud.get_user_tag_by_restaurant_and_tag_id(tag, restaurant.restaurant_id)
+        tag_to_delete = crud.get_user_tag_by_restaurant_and_tag_id(tag, restaurant.restaurant_id, user_id)
         db.session.delete(tag_to_delete)
     db.session.commit()
     flash('Tag(s) successfully deleted!')

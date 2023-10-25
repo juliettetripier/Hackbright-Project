@@ -1,9 +1,9 @@
 const addVisitButton = document.querySelector('#visit-button');
 const removeVisitButton = document.querySelector('#unvisit-button');
-
 const addToListButton = document.querySelector('#add-to-list-button');
-
 const addTagButton = document.querySelector('#add-tag-button');
+const removeTagButton = document.querySelector('#delete-tags-button');
+const addedTags = document.querySelector('#added-tags-div');
 
 
 function addVisit() {
@@ -84,17 +84,23 @@ function addTag() {
     })
         .then((response) => response.json())
         .then((responsejson) => {
-            console.log(responsejson)
-            alert(responsejson['code']);
-            const allTags = document.querySelectorAll('.displayed-tag')
-            console.log(allTags)
+            const allTags = document.querySelectorAll('.displayed-tag');
             for (let i=0; i < allTags.length; i++) {
-                console.log(allTags[i])
                 if (allTags[i].value == responsejson['tag_id']) {
                     allTags[i].style.display = 'none';
                 }
             }
-            document.querySelector('#which-tag').selectedIndex = 0
+            document.querySelector('#which-tag').selectedIndex = 0;
+            if (responsejson['code'] == 'Tag successfully added!') {
+                let tagCheckbox = `<input type='checkbox' id= ${responsejson['tag_id']} name='tag_id' value=${responsejson['tag_id']}>`;
+                let tagLabel = `<label for=${responsejson['tag_id']}> ${responsejson['tag_name']} </label>`;
+                addedTags.insertAdjacentHTML('beforeend', tagCheckbox);
+                addedTags.insertAdjacentHTML('beforeend', tagLabel);
+                addedTags.insertAdjacentHTML('beforeend', '<br/>');
+                removeTagButton.style.display = "inline";
+            } else {
+                alert(responsejson['code'])
+            }
         })
 }
 
