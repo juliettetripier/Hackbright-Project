@@ -40,8 +40,9 @@
 <div id="tags-div">
     <h3>Add a Tag</h3>
     <select name="tags-dropdown" id="which-tag">
+        <option value="default"><i>Select an option</i></option>
         {% for tag in tags %}
-            <option value="{{ tag.tag_id }}">{{ tag.name }}</option>
+            <option value="{{ tag.tag_id }}" class="displayed-tag">{{ tag.name }}</option>
         {% endfor %}
     </select>
     <button type="button" id="add-tag-button">Add Tag</button>

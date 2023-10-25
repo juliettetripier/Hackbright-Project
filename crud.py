@@ -156,10 +156,10 @@ def get_user_tags_by_restaurant_and_user(user_id, restaurant_id):
     return UserTag.query.filter_by(user_id=user_id, restaurant_id=restaurant_id).all()
 
 
-def get_user_tag_by_restaurant_and_tag_id(tag_id, restaurant_id):
+def get_user_tag_by_restaurant_and_tag_id(tag_id, restaurant_id, user_id):
     """Return the instance of a tag being added to the specified restaurant, with the specified user tag id."""
 
-    return UserTag.query.filter_by(tag_id=tag_id, restaurant_id=restaurant_id).first()
+    return UserTag.query.filter_by(tag_id=tag_id, restaurant_id=restaurant_id, user_id=user_id).first()
 
 
 def get_all_user_achievements(user_id):

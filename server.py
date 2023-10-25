@@ -466,11 +466,17 @@ def add_tag():
         crud.add_achievement(user, new_achievement)
         flash(f'New achievement earned: {new_achievement.name}')
 
-    user_tag = crud.create_user_tag(user_id, restaurant.restaurant_id, tag_id)
-    db.session.add(user_tag)
-    db.session.commit()
+    # check that user hasn't already tagged restaurant with this tag
+    already_tagged = crud.get_user_tag_by_restaurant_and_tag_id(tag_id, restaurant.restaurant_id, user_id)
+    if already_tagged:
+        code = 'Error: tag already added'
+    else:
+        user_tag = crud.create_user_tag(user_id, restaurant.restaurant_id, tag_id)
+        code = 'Tag successfully added!'
+        db.session.add(user_tag)
+        db.session.commit()
 
-    return jsonify({'code': 'Tag successfully added!'})
+    return jsonify({'code': code, 'tag_id': tag_id})
 
 
 @app.route('/deletetag', methods=['POST'])

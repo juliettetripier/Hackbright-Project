@@ -84,7 +84,17 @@ function addTag() {
     })
         .then((response) => response.json())
         .then((responsejson) => {
+            console.log(responsejson)
             alert(responsejson['code']);
+            const allTags = document.querySelectorAll('.displayed-tag')
+            console.log(allTags)
+            for (let i=0; i < allTags.length; i++) {
+                console.log(allTags[i])
+                if (allTags[i].value == responsejson['tag_id']) {
+                    allTags[i].style.display = 'none';
+                }
+            }
+            document.querySelector('#which-tag').selectedIndex = 0
         })
 }
 
