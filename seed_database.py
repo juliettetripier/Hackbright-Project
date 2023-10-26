@@ -82,4 +82,12 @@ with server.app.app_context():
 
     user1.visits.append(restaurant1)
 
+    # create a list of dictionaries
+    # in the dictionary, have their username, email, password
+    # for each one, create a user and add it to your db
+    # a leaderboard might only need like 10 users
+
+    # after committing, you can either use nested for loops or do it for each user
+    # to add achievements to the user
+
     model.db.session.commit()

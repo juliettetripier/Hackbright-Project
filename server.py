@@ -512,6 +512,13 @@ def delete_tag():
     return redirect(f'/restaurant/{yelp_id}')
 
 
+@app.route('/leaderboard')
+def show_leaderboard():
+    """Display the achievement leaderboard."""
+
+    return render_template('leaderboard.html')
+
+
 
 if __name__ == "__main__":
     connect_to_db(app)
