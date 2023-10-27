@@ -526,12 +526,24 @@ def show_leaderboard():
     user = crud.get_user_by_id(session.get('user'))
 
     users_by_points = crud.get_users_sorted_by_points()
-    print(users_by_points)
+    top_ten = users_by_points[:10]
+    user_in_top_ten = False
+    if user in top_ten:
+        user_in_top_ten = True
+    user_rank = users_by_points.index(user)
+
+
 
     return render_template('leaderboard.html',
                            user=user,
-                           users=users_by_points)
-
+                           top_ten=top_ten,
+                           user_in_top_ten=user_in_top_ten,
+                           user_rank=user_rank,
+                           enumerate=enumerate)
+# you can pass in functions like enumerate
+# pass in list of just top 10 users
+# pass in boolean showing if user is in top 10
+# grab user's position in list
 
 
 if __name__ == "__main__":

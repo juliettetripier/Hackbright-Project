@@ -12,14 +12,28 @@
         <th>Achievements</th>
         <th>Points</th>
     </tr>
-    {% for top_user in users %}
-        <tr>
-            <td>rank</td>
-            <td>{{ top_user.username }}</td>
-            <td>{{ top_user.num_achievements }}</td>
-            <td>{{ top_user.total_points }}</td>
-        </tr>
+    {% for i, top_user in enumerate(top_ten) %}
+            <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ top_user.username }}</td>
+                <td>{{ top_user.num_achievements }}</td>
+                <td>{{ top_user.total_points }}</td>
+            </tr>
     {% endfor %}
+    {% if not user_in_top_ten %}
+            <tr>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+            </tr>
+            <tr>
+                <td>{{ user_rank }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.num_achievements }}</td>
+                <td>{{ user.total_points }}</td>
+            </tr>
+    {% endif %}
 </table>
 
 {% endblock %}
