@@ -1,7 +1,6 @@
 from flask import (Flask, render_template, request, flash, session,
                    redirect, jsonify)
 from model import connect_to_db, db
-from sqlalchemy import desc
 import crud
 import datetime
 import os
@@ -525,16 +524,13 @@ def show_leaderboard():
     """Display the achievement leaderboard."""
 
     user = crud.get_user_by_id(session.get('user'))
-    all_users = crud.get_all_users()
 
-    top_ten_users = []
-    
-    # you can order the users by # points in SQL request
-    # User.query.filter(User.achievement_points <= 0).order_by(desc(User.achievement_points)).all()
+    users_by_points = crud.get_users_sorted_by_points()
+    print(users_by_points)
 
     return render_template('leaderboard.html',
                            user=user,
-                           )
+                           users=users_by_points)
 
 
 

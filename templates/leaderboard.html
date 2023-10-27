@@ -7,11 +7,19 @@
 
 <table>
     <tr>
-        <th>#</th>
+        <th>Rank</th>
         <th>User</th>
         <th>Achievements</th>
         <th>Points</th>
     </tr>
+    {% for top_user in users %}
+        <tr>
+            <td>rank</td>
+            <td>{{ top_user.username }}</td>
+            <td>{{ top_user.num_achievements }}</td>
+            <td>{{ top_user.total_points }}</td>
+        </tr>
+    {% endfor %}
 </table>
 
 {% endblock %}

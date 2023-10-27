@@ -1,5 +1,5 @@
 from model import db, connect_to_db, User, Restaurant, RestaurantVisit, Achievement, UserAchievement, Tag, UserTag, Wishlist, ListItem
-
+from sqlalchemy import desc
 
 if __name__ == '__main__':
     from server import app
@@ -214,3 +214,9 @@ def update_achievement_info_by_user_id(user_id, point_change, num_achievments_ch
     user = get_user_by_id(user_id)
     user.total_points += point_change
     user.num_achievements += num_achievments_changed
+
+
+def get_users_sorted_by_points():
+    """Return all users, sorted by achievement points in descending order."""
+
+    return User.query.order_by(desc(User.total_points)).all()
