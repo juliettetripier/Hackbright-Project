@@ -15,7 +15,7 @@
     {% for i, top_user in enumerate(top_ten) %}
             <tr>
                 <td>{{ i + 1 }}</td>
-                <td>{{ top_user.username }}</td>
+                <td><a href="/profile/{{ top_user.user_id }}">{{ top_user.username }}</a></td>
                 <td>{{ top_user.num_achievements }}</td>
                 <td>{{ top_user.total_points }}</td>
             </tr>
@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <td>{{ user_rank }}</td>
-                <td>{{ user.username }}</td>
+                <td><a href="/profile/{{ user.user_id }}">{{ user.username }}</a></td>
                 <td>{{ user.num_achievements }}</td>
                 <td>{{ user.total_points }}</td>
             </tr>

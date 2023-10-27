@@ -67,7 +67,7 @@ def login():
     if user:
         if password == user.password:
             session['user'] = user.user_id
-            return redirect('/profile')
+            return redirect(f'/profile/{user.user_id}')
         else: 
             flash('Your login credentials are incorrect. Please try again.')
             return redirect('/')
@@ -84,16 +84,18 @@ def logout():
     return redirect('/')
     
 
-@app.route('/profile')
-def show_profile():
+@app.route('/profile/<id>')
+def show_profile(id):
     """Show user profile."""
 
     user = crud.get_user_by_id(session.get('user'))
+    profile_owner = crud.get_user_by_id(id)
     if user:
         return render_template('profile.html', 
-                               user=user)
+                               user=user,
+                               profile_owner=profile_owner)
     else:
-        flash('Please log in to view your profile page.')
+        flash('Please log in to view profile pages.')
         return redirect('/')
 
 
@@ -339,7 +341,7 @@ def create_new_list():
     db.session.commit()
     flash('List created successfully!')
 
-    return redirect('/profile')
+    return redirect(f'/profile/{user.user_id}')
 
 
 @app.route('/list/<id>')
@@ -447,7 +449,7 @@ def delete_list():
     db.session.commit()
 
     flash('List deleted!')
-    return redirect('/profile')
+    return redirect(f'/profile/{user_id}')
 
 
 @app.route('/addtag', methods=['POST'])
@@ -525,25 +527,43 @@ def show_leaderboard():
 
     user = crud.get_user_by_id(session.get('user'))
 
-    users_by_points = crud.get_users_sorted_by_points()
-    top_ten = users_by_points[:10]
-    user_in_top_ten = False
-    if user in top_ten:
-        user_in_top_ten = True
-    user_rank = users_by_points.index(user)
+    if user:
+        users_by_points = crud.get_users_sorted_by_points()
+        top_ten = users_by_points[:10]
+        user_in_top_ten = False
+        if user in top_ten:
+            user_in_top_ten = True
+        user_rank = users_by_points.index(user)
 
+        return render_template('leaderboard.html',
+                            user=user,
+                            top_ten=top_ten,
+                            user_in_top_ten=user_in_top_ten,
+                            user_rank=user_rank,
+                            enumerate=enumerate)
+    else:
+        flash('Please log in to view the leaderboard.')
+        return redirect('/')
+    
 
+@app.route('/search-user')
+def get_user_search_results():
+    """Search for a user with the requested username."""
+    requested_username = request.args.get('requested_user')
+    requested_user = crud.get_user_by_username(requested_username)
+    user = session.get('user')
 
-    return render_template('leaderboard.html',
-                           user=user,
-                           top_ten=top_ten,
-                           user_in_top_ten=user_in_top_ten,
-                           user_rank=user_rank,
-                           enumerate=enumerate)
-# you can pass in functions like enumerate
-# pass in list of just top 10 users
-# pass in boolean showing if user is in top 10
-# grab user's position in list
+    print(requested_username)
+    print(requested_user)
+    
+    if user:
+        return render_template('user-search-results.html',
+                            requested_username=requested_username,
+                           requested_user=requested_user)
+    else:
+        flash('You must be logged in to search for users!')
+        return redirect('/')
+
 
 
 if __name__ == "__main__":

@@ -1,48 +1,48 @@
 {% extends 'base.html' %}
-{% block title %}Your Profile{% endblock %}
+{% block title %}{{ profile_owner.username }}{% endblock %}
 
 {% block body %}
 
-<h1>Your profile page</h1>
+<h1>{{ profile_owner.username }}'s profile page</h1>
 
-<p> User ID: {{ user.user_id }}</p>
-
-<p> Username: {{ user.username }}</p>
-
+{% if profile_owner == user %}
 <p><a href="/search">Search for restaurants!</a></p>
+{% endif %}
 
 <div id="visits-div">
-    <h3>{{ user.username }}'s visited restaurants</h3>
+    <h3>{{ profile_owner.username }}'s visited restaurants</h3>
     <ul>
-        {% if user.visits %}
-        {% for visit in user.visits %}
+        {% if profile_owner.visits %}
+        {% for visit in profile_owner.visits %}
             <li><a href="/restaurant/{{ visit.yelp_id }}">{{ visit.name }}</a></li>
         {% endfor %}
         {% else %}
-            {{ user.username }} hasn't visited any restaurants yet.
+            {{ profile_owner.username }} hasn't visited any restaurants yet.
         {% endif %}
     </ul>
 
 </div>
 
 <div id="lists-div">
-    <h3>{{ user.username }}'s lists</h3>
-    <a href="/newlist">Create a new list!</a>
+    <h3>{{ profile_owner.username }}'s lists</h3>
+    {% if profile_owner == user %}
+        <a href="/newlist">Create a new list!</a>
+    {% endif %}
     <ul>
-        {% if user.lists %}
-            {% for list in user.lists %}
+        {% if profile_owner.lists %}
+            {% for list in profile_owner.lists %}
                 <li><a href="/list/{{ list.list_id }}">{{ list.name }}</a></li>
             {% endfor %}
         {% else %}
-            {{ user.username }} hasn't made any lists yet.
+            {{ profile_owner.username }} hasn't made any lists yet.
         {% endif %}
     </ul>
 </div>
 
 <div id="achievements-div">
-    <h3>{{ user.username }}'s achievements</h3>
-    {% if user.achievements %}
-        {% for achievement in user.achievements %}
+    <h3>{{ profile_owner.username }}'s achievements</h3>
+    {% if profile_owner.achievements %}
+        {% for achievement in profile_owner.achievements %}
             <div>
                 <h5>{{ achievement.name }}</h5>
                 <i>{{ achievement.description }}</i>
@@ -50,13 +50,15 @@
             </div>
         {% endfor %}
     {% else %}
-        <p>{{ user.username }} hasn't earned any achievements yet.</p>
+        <p>{{ profile_owner.username }} hasn't earned any achievements yet.</p>
         <p>Try creating a wishlist or marking a restaurant as visited and see what happens!</p>
     {% endif %}
 </div>
 
+{% if profile_owner == user %}
 <form action="/logout">
 <button type="submit" id="logout-button">Log Out</button>
 </form>
+{% endif %}
 
 {% endblock %}

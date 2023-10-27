@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}User Search Results{% endblock %}
+
+{% block body %}
+
+<h1>User Search Results</h1>
+
+{% if requested_user %}
+    <p><a href="/profile/{{ requested_user.user_id }}">{{ requested_username }}</a></p>
+{% else %}
+    <p>Sorry, there are no users with that username.</p>
+{% endif %}
+
+{% endblock %}
