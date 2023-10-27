@@ -1,6 +1,7 @@
 from flask import (Flask, render_template, request, flash, session,
                    redirect, jsonify)
 from model import connect_to_db, db
+from sqlalchemy import desc
 import crud
 import datetime
 import os
@@ -292,10 +293,12 @@ def remove_visit():
         achievement = crud.get_achievement_by_name('Restaurant Explorer 1')
         achievement_to_delete = crud.get_user_achievement_by_achievement(user.user_id, achievement.achievement_id)
         db.session.delete(achievement_to_delete)
+        crud.update_achievement_info_by_user_id(user.user_id, -(achievement.points), -1)
     elif len(previous_visits) == 5:
         achievement = crud.get_achievement_by_name('Restaurant Explorer 2')
         achievement_to_delete = crud.get_user_achievement_by_achievement(user.user_id, achievement.achievement_id)
         db.session.delete(achievement_to_delete)
+        crud.update_achievement_info_by_user_id(user.user_id, -(achievement.points), -1)
 
     db.session.delete(visit)
     db.session.commit()
@@ -399,6 +402,7 @@ def delete_list_item():
         achievement = crud.get_achievement_by_name('Dreamer 1')
         achievement_to_delete = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
         db.session.delete(achievement_to_delete)
+        crud.update_achievement_info_by_user_id(user_id, -(achievement.points), -1)
 
     list_item = crud.get_list_item(list_id, restaurant_id)
     db.session.delete(list_item)
@@ -425,6 +429,7 @@ def delete_list():
         achievement = crud.get_achievement_by_name('List Maker 1')
         achievement_to_delete = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
         db.session.delete(achievement_to_delete)
+        crud.update_achievement_info_by_user_id(user_id, -(achievement.points), -1)
 
     db.session.delete(list_to_delete)
 
@@ -436,6 +441,7 @@ def delete_list():
         if list_items_remaining == 0:
             achievement = crud.get_achievement_by_name('Dreamer 1')
             db.session.delete(achievement)
+            crud.update_achievement_info_by_user_id(user_id, -(achievement.points), -1)
         for item in items_to_delete:
             db.session.delete(item)
 
@@ -501,11 +507,13 @@ def delete_tag():
             achievement2 = crud.get_achievement_by_name('Tagger 1')
             user_achievement2 = crud.get_user_achievement_by_achievement(user_id, achievement2.achievement_id)
             db.session.delete(user_achievement2)
+            crud.update_achievement_info_by_user_id(user_id, -(achievement2.points), -1)
     if len(user_tags) < 5:
         achievement = crud.get_achievement_by_name('Tagger 2')
         user_achievement = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
         if user_achievement:
             db.session.delete(user_achievement)
+            crud.update_achievement_info_by_user_id(user_id, -(achievement.points), -1)
 
     db.session.commit()
 
@@ -516,7 +524,17 @@ def delete_tag():
 def show_leaderboard():
     """Display the achievement leaderboard."""
 
-    return render_template('leaderboard.html')
+    user = crud.get_user_by_id(session.get('user'))
+    all_users = crud.get_all_users()
+
+    top_ten_users = []
+    
+    # you can order the users by # points in SQL request
+    # User.query.filter(User.achievement_points <= 0).order_by(desc(User.achievement_points)).all()
+
+    return render_template('leaderboard.html',
+                           user=user,
+                           )
 
 
 

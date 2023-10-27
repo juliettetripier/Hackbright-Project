@@ -54,10 +54,7 @@ def create_user_tag(user_id, restaurant_id, tag_id):
 
     return user_tag
 
-def add_achievement(user, achievement):
-    """Add an achievement to a user."""
 
-    user.achievements.append(achievement)
 
 
 def get_user_by_id(user_id):
@@ -70,6 +67,12 @@ def get_user_by_email(email):
     """Take an email address and return the user object with that email address."""
 
     return User.query.filter(email == User.email).first()
+
+
+def get_all_users():
+    """Return all users in the database."""
+
+    return User.query.all()
 
 
 def get_user_by_username(username):
@@ -162,6 +165,14 @@ def get_user_tag_by_restaurant_and_tag_id(tag_id, restaurant_id, user_id):
     return UserTag.query.filter_by(tag_id=tag_id, restaurant_id=restaurant_id, user_id=user_id).first()
 
 
+def add_achievement(user, achievement):
+    """Add an achievement to a user."""
+
+    user.achievements.append(achievement)
+    user.num_achievements += 1
+    user.total_points += achievement.points
+
+
 def get_all_user_achievements(user_id):
     """Return all achievements earned by the specified user."""
 
@@ -178,3 +189,28 @@ def get_achievement_by_name(name):
     """Return the achievement object with the specified name."""
 
     return Achievement.query.filter_by(name=name).first()
+
+
+def get_num_achievements_by_user_id(user_id):
+    """Return the number of achievements earned by the user with the specified ID."""
+
+    achievement_list = UserAchievement.query.filter_by(user_id=user_id).all()
+    return len(achievement_list)
+
+
+def get_achievement_points_by_user_id(user_id):
+    """Return the number of achievement points earned by the user with the specified ID."""
+
+    num_points = 0
+    user = get_user_by_id(user_id)
+    for achievement in user.achievements:
+        num_points += achievement.points
+    return num_points
+
+
+def update_achievement_info_by_user_id(user_id, point_change, num_achievments_changed):
+    """Update total achievement points and # of achievements for a user with the specified ID."""
+
+    user = get_user_by_id(user_id)
+    user.total_points += point_change
+    user.num_achievements += num_achievments_changed

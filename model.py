@@ -14,6 +14,10 @@ class User(db.Model):
     email = db.Column(db.String, unique=True)
     username = db.Column(db.String, unique=True)
     password = db.Column(db.String)
+    num_achievements = db.Column(db.Integer,
+                                 default=0)
+    total_points = db.Column(db.Integer,
+                             default=0)
 
     lists = db.relationship("Wishlist", back_populates="user")
     achievements = db.relationship("Achievement", secondary="user_achievements", back_populates="users")

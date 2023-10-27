@@ -1,7 +1,7 @@
 import os
 # import json
 
-# import crud
+import crud
 import model
 import server
 
@@ -82,12 +82,82 @@ with server.app.app_context():
 
     user1.visits.append(restaurant1)
 
-    # create a list of dictionaries
-    # in the dictionary, have their username, email, password
-    # for each one, create a user and add it to your db
-    # a leaderboard might only need like 10 users
+    users_dict = []
+    users_dict.append({'username': 'moodyfoodie', 'email': 'mf@email.com', 'password': 'password'})
+    users_dict.append({'username': 'the_yolker', 'email': 'ty@email.com', 'password': 'password'})
+    users_dict.append({'username': 'juliab94', 'email': 'jb94@email.com', 'password': 'password'})
+    users_dict.append({'username': 'fivebelowzer0', 'email': 'fbz@email.com', 'password': 'password'})
+    users_dict.append({'username': 'florida_man', 'email': 'fm@email.com', 'password': 'password'})
+    users_dict.append({'username': 'DonkeyDoug', 'email': 'dd@email.com', 'password': 'password'})
+    users_dict.append({'username': 'ketchupmustard', 'email': 'km@email.com', 'password': 'password'})
+    users_dict.append({'username': 'KimGordon1953', 'email': 'kg@email.com', 'password': 'password'})
+    users_dict.append({'username': 'number1d1va', 'email': 'n1d@email.com', 'password': 'password'})
+    users_dict.append({'username': 'infinite_pastabilities', 'email': 'ip@email.com', 'password': 'password'})
+    users_dict.append({'username': 'foodhater', 'email': 'fh@email.com', 'password': 'password'})
+    users_dict.append({'username': 'la_gourmande', 'email': 'lg@email.com', 'password': 'password'})
+    users_dict.append({'username': 'mikkomarshmallow', 'email': 'meeks@email.com', 'password': 'password'})
 
-    # after committing, you can either use nested for loops or do it for each user
-    # to add achievements to the user
+    for account in users_dict:
+        new_user = crud.create_user(email=account['email'], username=account['username'], password=account['password'])
+        model.db.session.add(new_user)
+    model.db.session.commit()
 
+    moodyfoodie = crud.get_user_by_username('moodyfoodie')
+    the_yolker = crud.get_user_by_username('the_yolker')
+    juliab94 = crud.get_user_by_username('juliab94')
+    fivebelowzer0 = crud.get_user_by_username('fivebelowzer0')
+    florida_man = crud.get_user_by_username('florida_man')
+    DonkeyDoug = crud.get_user_by_username('DonkeyDoug')
+    ketchupmustard = crud.get_user_by_username('ketchupmustard')
+    KimGordon1953 = crud.get_user_by_username('KimGordon1953')
+    number1d1va = crud.get_user_by_username('number1d1va')
+    infinite_pastabilities = crud.get_user_by_username('infinite_pastabilities')
+    foodhater = crud.get_user_by_username('foodhater')
+    la_gourmande = crud.get_user_by_username('la_gourmande')
+    mikkomarshmallow = crud.get_user_by_username('mikkomarshmallow')
+
+    badge1 = crud.get_achievement_by_name('Restaurant Explorer 1')
+    badge2 = crud.get_achievement_by_name('Restaurant Explorer 2')
+    badge3 = crud.get_achievement_by_name('List Maker 1')
+    badge4 = crud.get_achievement_by_name('Dreamer 1')
+    badge5 = crud.get_achievement_by_name('Tagger 1')
+    badge6 = crud.get_achievement_by_name('Tagger 2')
+    
+    crud.add_achievement(moodyfoodie, badge1)
+    crud.add_achievement(moodyfoodie, badge2)
+    crud.add_achievement(moodyfoodie, badge3)
+    crud.add_achievement(moodyfoodie, badge4)
+    crud.add_achievement(moodyfoodie, badge5)
+    crud.add_achievement(the_yolker, badge1)
+    crud.add_achievement(the_yolker, badge2)
+    crud.add_achievement(the_yolker, badge3)
+    crud.add_achievement(the_yolker, badge4)
+    crud.add_achievement(the_yolker, badge5)
+    crud.add_achievement(the_yolker, badge6)
+    crud.add_achievement(juliab94, badge1)
+    crud.add_achievement(fivebelowzer0, badge1)
+    crud.add_achievement(fivebelowzer0, badge2)
+    crud.add_achievement(fivebelowzer0, badge3)
+    crud.add_achievement(florida_man, badge1)
+    crud.add_achievement(florida_man, badge2)
+    crud.add_achievement(florida_man, badge3)
+    crud.add_achievement(florida_man, badge4)
+    crud.add_achievement(DonkeyDoug, badge1)
+    crud.add_achievement(DonkeyDoug, badge2)
+    crud.add_achievement(DonkeyDoug, badge3)
+    crud.add_achievement(DonkeyDoug, badge4)
+    crud.add_achievement(ketchupmustard, badge1)
+    crud.add_achievement(ketchupmustard, badge2)
+    crud.add_achievement(KimGordon1953, badge1)
+    crud.add_achievement(number1d1va, badge1)
+    crud.add_achievement(number1d1va, badge2)
+    crud.add_achievement(number1d1va, badge3)
+    crud.add_achievement(infinite_pastabilities, badge1)
+    crud.add_achievement(infinite_pastabilities, badge2)
+    crud.add_achievement(infinite_pastabilities, badge3)
+    crud.add_achievement(infinite_pastabilities, badge4)
+    crud.add_achievement(la_gourmande, badge1)
+    crud.add_achievement(la_gourmande, badge2)
+    crud.add_achievement(mikkomarshmallow, badge1)
+    crud.add_achievement(mikkomarshmallow, badge2)
     model.db.session.commit()
