@@ -3,37 +3,45 @@
 
 {% block body %}
 
-<h1>Welcome to eggsplorer!</h1>
+<div class="container">
+    <div class="page-header">
+        <h1>Welcome to eggsplorer!</h1>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <img src="/static/img/unsplash-homepage.jpg" id="homepage-egg">
+        </div>
+        <div class="col-6">
+            <h2>Log In</h2>
+            <form action="/login" method="POST">
+                <p>
+                    Username <input type="text" name="username">
+                </p>
+                <p>
+                    Password <input type="password" name="password">
+                </p>
+                <p>
+                    <input type="submit" value="Log In">
+                </p>
+            </form>
 
-<img src="/static/img/unsplash-homepage.jpg" id="homepage-egg">
-
-<h2>Log In</h2>
-<form action="/login" method="POST">
-    <p>
-        Username <input type="text" name="username">
-    </p>
-    <p>
-        Password <input type="password" name="password">
-    </p>
-    <p>
-        <input type="submit" value="Log In">
-    </p>
-</form>
-
-<h2>Create an Account</h2>
-<form action="/newuser" method="POST">
-    <p>
-        Email <input type="text" name="email">
-    </p>
-    <p>
-        Username <input type="text" name="username">
-    </p>
-    <p>
-        Password <input type="password" name="password">
-    </p>
-    <p>
-        <input type="submit" value="Create Account">
-    </p>
-</form>
+            <h2>Create an Account</h2>
+            <form action="/newuser" method="POST">
+                <p>
+                    Email <input type="text" name="email">
+                </p>
+                <p>
+                    Username <input type="text" name="username">
+                </p>
+                <p>
+                    Password <input type="password" name="password">
+                </p>
+                <p>
+                    <input type="submit" value="Create Account">
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
