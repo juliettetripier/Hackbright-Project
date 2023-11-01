@@ -1,17 +1,26 @@
-.btn-success {
-    background-color: #3691A7;
+.btn-outline-success {
+    color: #16697a;
 }
 
-.btn-success:hover, .btn-success:focus, .btn-success:active {
+.btn-outline-success:hover, .btn-outline-success:focus, .btn-outline-success:active {
     background-color: #82C0CC;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: #16697A;
+    font-family: 'Arvo', serif;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
 }
 
 a {
     color: #489FB5;
+}
+
+.navbar-brand {
+    font-family: 'Arvo', serif;
 }
 
 .btn-outline-primary {
@@ -23,4 +32,11 @@ a {
 .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
     background-color: #82C0CC;
     border-color: #82C0CC
+}
+
+
+/* Homepage CSS */
+#homepage-egg {
+    width: 50%;
+    margin: 10px;
 }
