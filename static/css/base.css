@@ -12,10 +12,14 @@
 }
 
 
-
+/* General Styling */
 h1, h2, h3, h4, h5, h6 {
     color: #16697A;
     font-family: 'Arvo', serif;
+}
+
+h1 {
+    font-weight: bold;
 }
 
 body {
@@ -34,8 +38,19 @@ a {
 
 .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
     background-color: #82C0CC;
-    border-color: #82C0CC
+    border-color: #82C0CC;
 }
+
+.btn-primary {
+    background-color: #489FB5;
+    border-color: #489FB5;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #16697A;
+    border-color: #16697A;
+}
+
 
 /* Homepage-specific Styling */
 .page-header {
@@ -44,7 +59,30 @@ a {
     justify-content: center;
 }
 
+.widen-form {
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.centering {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #homepage-egg {
     width: 100%;
 }
 
+#homepage-column-1 {
+    display: flex;
+    justify-content: center;
+}
+
+#homepage-column-2 {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

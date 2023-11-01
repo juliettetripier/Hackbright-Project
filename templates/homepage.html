@@ -3,43 +3,50 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container-fluid">
     <div class="page-header">
         <h1>Welcome to eggsplorer!</h1>
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-6" id="homepage-column-1">
             <img src="/static/img/unsplash-homepage.jpg" id="homepage-egg">
         </div>
-        <div class="col-6">
-            <h2>Log In</h2>
-            <form action="/login" method="POST">
-                <p>
-                    Username <input type="text" name="username">
-                </p>
-                <p>
-                    Password <input type="password" name="password">
-                </p>
-                <p>
-                    <input type="submit" value="Log In">
-                </p>
-            </form>
-
-            <h2>Create an Account</h2>
-            <form action="/newuser" method="POST">
-                <p>
-                    Email <input type="text" name="email">
-                </p>
-                <p>
-                    Username <input type="text" name="username">
-                </p>
-                <p>
-                    Password <input type="password" name="password">
-                </p>
-                <p>
-                    <input type="submit" value="Create Account">
-                </p>
-            </form>
+        <div class="col-6" id="homepage-column-2">
+            <div class="row centering">
+                <div class="col-10 centering">
+                    <p>eggsplorer is a fun, rewarding way to find your new favorite local
+                        restaurant. Search for places to eat by keyword and location, track
+                        which restaurants you've visited, and create custom lists to organize
+                        your culinary adventures - all while earning achievements!</p>
+                </div>
+                <div class="col-10">
+                    <p><i>Sign in or create an account below to get started.</i></p> 
+                </div>
+                <div class="col-10 centering">
+                    <form action="/login" method="POST" class="widen-form">
+                        <h2>Log In</h2>
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password">
+                        <br>
+                        <button type="submit" class="btn btn-primary">Log In</button>
+                    </form>
+                </div>
+                <div class="col-10 centering">   
+                    <form action="/newuser" method="POST" class="widen-form">
+                        <h2>Create an Account</h2>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" name="email">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="text" class="form-control" name="password">
+                        <br>
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </form>
+                </div> 
+            </div>
         </div>
     </div>
 </div>
