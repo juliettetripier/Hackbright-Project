@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.secret_key = "REPLACE ME LATER"
 
 YELP_API_KEY = os.environ['YELP_KEY']
-# MAPS_API_KEY = os.environ['MAPS_KEY']
 
 # Helper functions
 def get_restaurant_info(yelp_id):
@@ -370,16 +369,22 @@ def add_to_list():
     """Add a restaurant to a user's list."""
 
     user = crud.get_user_by_id(session.get('user'))
+    print(user)
     list_id = request.json.get('listid')
+    print(list_id)
     yelp_id = request.json.get('restaurantid')
+    print(yelp_id)
     restaurant = crud.get_restaurant_by_yelp_id(yelp_id)
+    print(restaurant)
 
     new_list_item = crud.add_list_item(user.user_id, restaurant.restaurant_id, list_id)
+    print(new_list_item)
 
     # check user's previous list items to determine eligibility for achievements
     previous_list_items = crud.get_all_list_items_by_user(user.user_id)
     if not previous_list_items:
         new_achievement = crud.get_achievement_by_name('Dreamer 1')
+        print(new_achievement)
         crud.add_achievement(user, new_achievement)
         flash(f'New achievement earned: {new_achievement.name}')
 
@@ -441,7 +446,8 @@ def delete_list():
         list_items_remaining = len(all_list_items) - num_items_deleted
         if list_items_remaining == 0:
             achievement = crud.get_achievement_by_name('Dreamer 1')
-            db.session.delete(achievement)
+            achievement_to_delete = crud.get_user_achievement_by_achievement(user_id, achievement.achievement_id)
+            db.session.delete(achievement_to_delete)
             crud.update_achievement_info_by_user_id(user_id, -(achievement.points), -1)
         for item in items_to_delete:
             db.session.delete(item)
@@ -533,8 +539,7 @@ def show_leaderboard():
         user_in_top_ten = False
         if user in top_ten:
             user_in_top_ten = True
-        user_rank = users_by_points.index(user)
-
+        user_rank = (users_by_points.index(user)) + 1
         return render_template('leaderboard.html',
                             user=user,
                             top_ten=top_ten,
@@ -553,9 +558,6 @@ def get_user_search_results():
     requested_user = crud.get_user_by_username(requested_username)
     user = session.get('user')
 
-    print(requested_username)
-    print(requested_user)
-    
     if user:
         return render_template('user-search-results.html',
                             requested_username=requested_username,

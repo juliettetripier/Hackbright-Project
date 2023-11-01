@@ -1,0 +1,26 @@
+.btn-success {
+    background-color: #3691A7;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active {
+    background-color: #82C0CC;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #16697A;
+}
+
+a {
+    color: #489FB5;
+}
+
+.btn-outline-primary {
+    color: #3691A7;
+    border-color: #3691A7;
+    border-radius: 10px;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
+    background-color: #82C0CC;
+    border-color: #82C0CC
+}

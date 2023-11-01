@@ -13,11 +13,11 @@
 
 <div id="visit-div">
 {% if visit %}
-    <button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}" style="display: none">I ate here!</button>
-    <button type="button" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}">Click here to unvisit</button>
+    <button type="button" class="btn btn-outline-primary" id="visit-button" name="visit-button" value="{{ data['id'] }}" style="display: none">I ate here!</button>
+    <button type="button" class="btn btn-outline-primary" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}">Click here to unvisit</button>
 {% else %}
-    <button type="button" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
-    <button type="button" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}" style="display: none">Click here to unvisit</button>
+    <button type="button" class="btn btn-outline-primary" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
+    <button type="button" class="btn btn-outline-primary" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}" style="display: none">Click here to unvisit</button>
 {% endif %}
 </div>
 
@@ -29,7 +29,7 @@
                 <option value="{{ list.list_id }}">{{ list.name }}</option>
             {% endfor %}
         </select>
-        <button type="button" id="add-to-list-button">Add</button>
+        <button type="button" class="btn btn-outline-primary btn-sm" id="add-to-list-button">Add</button>
     {% else %}
         <p>You have no lists!</p>
         <p><a href="/newlist">Click here</a> to make a list.</p>
@@ -45,7 +45,7 @@
             <option value="{{ tag.tag_id }}" class="displayed-tag">{{ tag.name }}</option>
         {% endfor %}
     </select>
-    <button type="button" id="add-tag-button">Add Tag</button>
+    <button type="button" class="btn btn-outline-primary btn-sm" id="add-tag-button">Add Tag</button>
     <div id="edit-tags">
         <form action="/deletetag" method="POST">
             <div id="added-tags-div">
@@ -57,9 +57,9 @@
             </div>
             <input type="hidden" name="restaurant_yelp_id" value="{{ data['id'] }}">
             {% if user.tags %}
-            <button type="submit" id="delete-tags-button">Delete Selected Tags</button>
+            <button type="submit" class="btn btn-outline-primary btn-sm" id="delete-tags-button">Delete Selected Tags</button>
             {% else %}
-            <button type="submit" id="delete-tags-button" style="display: none">Delete Selected Tags</button>
+            <button type="submit" class="btn btn-outline-primary btn-sm" id="delete-tags-button" style="display: none">Delete Selected Tags</button>
             {% endif %}
         </form>
     </div>
