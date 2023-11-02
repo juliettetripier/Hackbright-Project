@@ -3,62 +3,78 @@
 
 {% block body %}
 
-<h1>{{ profile_owner.username }}'s profile page</h1>
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>{{ profile_owner.username }}'s profile page</h1>
+    </div>
 
-{% if profile_owner == user %}
-<p><a href="/search">Search for restaurants!</a></p>
-{% endif %}
-
-<div id="visits-div">
-    <h3>{{ profile_owner.username }}'s visited restaurants</h3>
-    <ul>
-        {% if profile_owner.visits %}
-        {% for visit in profile_owner.visits %}
-            <li><a href="/restaurant/{{ visit.yelp_id }}">{{ visit.name }}</a></li>
-        {% endfor %}
-        {% else %}
-            {{ profile_owner.username }} hasn't visited any restaurants yet.
-        {% endif %}
-    </ul>
-
-</div>
-
-<div id="lists-div">
-    <h3>{{ profile_owner.username }}'s lists</h3>
     {% if profile_owner == user %}
-        <a href="/newlist">Create a new list!</a>
+    <p><a href="/search">Search for restaurants!</a></p>
     {% endif %}
-    <ul>
-        {% if profile_owner.lists %}
-            {% for list in profile_owner.lists %}
-                <li><a href="/list/{{ list.list_id }}">{{ list.name }}</a></li>
-            {% endfor %}
-        {% else %}
-            {{ profile_owner.username }} hasn't made any lists yet.
-        {% endif %}
-    </ul>
-</div>
 
-<div id="achievements-div">
-    <h3>{{ profile_owner.username }}'s achievements</h3>
-    {% if profile_owner.achievements %}
-        {% for achievement in profile_owner.achievements %}
-            <div>
-                <h5>{{ achievement.name }}</h5>
-                <i>{{ achievement.description }}</i>
-                <p>{{ achievement.points }} points</p>
+    <div class="row">
+        <div class="col-6" id="profile-column-1">
+            <img src="/static/img/egg-basic.PNG" id="egg-mascot">
+        </div>
+        <div class="col-6" id="profile-column-2">
+            <div class="row" id="visits-lists-row">
+                <div class="col-6">
+                    <div id="visits-div">
+                        <h3>{{ profile_owner.username }}'s visits</h3>
+                        <ul>
+                            {% if profile_owner.visits %}
+                            {% for visit in profile_owner.visits %}
+                                <li><a href="/restaurant/{{ visit.yelp_id }}">{{ visit.name }}</a></li>
+                            {% endfor %}
+                            {% else %}
+                                {{ profile_owner.username }} hasn't visited any restaurants yet.
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div id="lists-div">
+                        <h3>{{ profile_owner.username }}'s lists</h3>
+                        {% if profile_owner == user %}
+                            <a href="/newlist">Create a new list!</a>
+                        {% endif %}
+                        <ul>
+                            {% if profile_owner.lists %}
+                                {% for list in profile_owner.lists %}
+                                    <li><a href="/list/{{ list.list_id }}">{{ list.name }}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                {{ profile_owner.username }} hasn't made any lists yet.
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-    {% else %}
-        <p>{{ profile_owner.username }} hasn't earned any achievements yet.</p>
-        <p>Try creating a wishlist or marking a restaurant as visited and see what happens!</p>
+            <div class="row">
+                <div class="col-12">
+                    <div id="achievements-div">
+                        <h3>{{ profile_owner.username }}'s achievements</h3>
+                        {% if profile_owner.achievements %}
+                            {% for achievement in profile_owner.achievements %}
+                                <div class="earned-achievement">
+                                    <h5>{{ achievement.name }}</h5>
+                                    <i>{{ achievement.description }}</i>
+                                    <p>{{ achievement.points }} points</p>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>{{ profile_owner.username }} hasn't earned any achievements yet.</p>
+                            <p>Try creating a wishlist or marking a restaurant as visited and see what happens!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% if profile_owner == user %}
+    <form action="/logout">
+    <button type="submit" id="logout-button">Log Out</button>
+    </form>
     {% endif %}
 </div>
-
-{% if profile_owner == user %}
-<form action="/logout">
-<button type="submit" id="logout-button">Log Out</button>
-</form>
-{% endif %}
 
 {% endblock %}

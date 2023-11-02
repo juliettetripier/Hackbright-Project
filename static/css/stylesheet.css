@@ -30,6 +30,10 @@ a {
     color: #489FB5;
 }
 
+button {
+    border-radius: 10px;
+}
+
 .btn-outline-primary {
     color: #3691A7;
     border-color: #3691A7;
@@ -51,8 +55,6 @@ a {
     border-color: #16697A;
 }
 
-
-/* Homepage-specific Styling */
 .page-header {
     margin: 25px;
     display: flex;
@@ -71,8 +73,10 @@ a {
     align-items: center;
 }
 
+/* Homepage-specific Styling */
+
 #homepage-egg {
-    width: 100%;
+    width: 90%;
 }
 
 #homepage-column-1 {
@@ -85,4 +89,15 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+/* Profile-specific styling */
+
+#egg-mascot {
+    width: 100%;
+}
+
+#visits-lists-row {
+    margin-bottom: 15px;
 }
