@@ -19,7 +19,7 @@
         <div class="col-6" id="profile-column-2">
             <div class="row" id="visits-lists-row">
                 <div class="col-6">
-                    <div id="visits-div">
+                    <div class="overflow-auto" id="visits-div">
                         <h3>{{ profile_owner.username }}'s visits</h3>
                         <ul>
                             {% if profile_owner.visits %}
@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div id="lists-div">
+                    <div class="overflow-auto" id="lists-div">
                         <h3>{{ profile_owner.username }}'s lists</h3>
                         {% if profile_owner == user %}
                             <a href="/newlist">Create a new list!</a>
@@ -52,7 +52,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div id="achievements-div">
+                    <div class="overflow-auto" id="achievements-div">
                         <h3>{{ profile_owner.username }}'s achievements</h3>
                         {% if profile_owner.achievements %}
                             {% for achievement in profile_owner.achievements %}

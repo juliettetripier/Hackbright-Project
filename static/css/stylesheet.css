@@ -101,3 +101,15 @@ button {
 #visits-lists-row {
     margin-bottom: 15px;
 }
+
+#visits-div {
+    max-height: 25vh;
+}
+
+#lists-div {
+    max-height: 25vh;
+}
+
+#achievements-div {
+    max-height: 50vh;
+}
