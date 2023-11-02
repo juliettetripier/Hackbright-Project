@@ -99,17 +99,22 @@ button {
 }
 
 #visits-lists-row {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    flex-direction: row-reverse;
 }
 
 #visits-div {
-    max-height: 25vh;
+    max-height: 20vh;
 }
 
 #lists-div {
-    max-height: 25vh;
+    max-height: 20vh;
 }
 
 #achievements-div {
     max-height: 50vh;
+}
+
+#search-button-profile {
+    margin-bottom: 25px;
 }

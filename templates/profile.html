@@ -9,7 +9,7 @@
     </div>
 
     {% if profile_owner == user %}
-    <p><a href="/search">Search for restaurants!</a></p>
+    <a class="btn btn-primary col-2 offset-5" href="/search" role="button" id="search-button-profile">Search for restaurants!</a>
     {% endif %}
 
     <div class="row">
@@ -72,7 +72,7 @@
         </div>
     {% if profile_owner == user %}
     <form action="/logout">
-    <button type="submit" id="logout-button">Log Out</button>
+    <button type="submit" class="btn btn-primary" id="logout-button">Log Out</button>
     </form>
     {% endif %}
 </div>
