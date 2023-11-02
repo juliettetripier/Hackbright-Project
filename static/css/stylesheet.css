@@ -128,3 +128,11 @@ button {
     color: white;
     border-radius: 5px;
 }
+
+#restaurant-search-result {
+    font-size: 20px;
+}
+
+#search-results-div {
+    margin-left: 10px;
+}

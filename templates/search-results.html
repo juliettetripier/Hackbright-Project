@@ -3,19 +3,25 @@
 
 {% block body %}
 
-<h1>Search Results</h1>
+<div class="container-fluid" id="search-results-div">
+    <div class="page-header">
+        <h1>Search Results</h1>
+    </div>
 
-<p>Your search found {{ restaurants|length }} restaurants.</p>
+    <p>Your search found {{ restaurants|length }} restaurants.</p>
 
-<div id="search-results">
-    <ul>
+    <div id="search-results">
         {% for restaurant in restaurants %}
-        <li>
-            <a href="/restaurant/{{ restaurant['id'] }}">
+            <a href="/restaurant/{{ restaurant['id'] }}" id="restaurant-search-result">
                 {{ restaurant['name'] }}
             </a>
-            </li>
+                <ul>
+                    <li> {% if restaurant['price'] %}
+                        {{ restaurant['price'] }}, 
+                        {% endif %}
+                        {{ restaurant['categories'][0]['title'] }}</li>
+                </ul>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
