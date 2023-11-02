@@ -3,39 +3,58 @@
 
 {% block body %}
 
-<h1>Search for Restaurants</h1>
-
-<form action="/search/go">
-    <div>
-        <label for="keywords">Search by Keyword</label>
-        <input id="keywords" type="text" name="keywords">
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>Search for Restaurants</h1>
     </div>
+    <form action="/search/go" class="col-6">
+        <div>
+            <label for="keywords" class="form-label">Search by Keyword</label>
+            <input class="form-control" id="keywords" type="text" name="keywords">
+        </div>
 
-    <br>
+        <br>
 
-    <div>
-        <label for="location">Location</label>
-        <input id="location" type="text" name="location" required> *
-        <p><i>Please enter a city, address, or ZIP code</i></p>
-    </div>
+        <div>
+            <label for="location" class="form-label">Location *</label>
+            <input class="form-control" id="location" type="text" name="location" required>
+            <p><i>Please enter a city, address, or ZIP code</i></p>
+        </div>
 
-    <br>
+        <br>
 
-    <div>
-        <label for="radius">Radius</label>
-        <input id="radius" type="text" name="radius">
-        <select name="unit" id="unit">
-            <option value="miles">miles</option>
-            <option value="kilometers">kilometers</option>
-        </select>
-    </div>
+        <div class="row">
+            <label for="radius" class="form-label">Radius</label>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <input class="form-control" id="radius" type="text" name="radius">
+            </div>
+            <div class="col-3">
+                <select class="form-select" name="unit" id="unit">
+                    <option value="miles">miles</option>
+                    <option value="kilometers">kilometers</option>
+                </select>  
+            </div>
+        </div>
 
-    <br>
+        <br>
 
-    <div>
-        <input type="submit" value="Let's Eggsplore!">
-    </div>
+        <div class="row">
+            <label class="form-label above" for="sort_by">Sort by</label>
+            <select class="form-select" name="sort_by" id="sort_by">
+                <option value="best_match">Relevance (default)</option>
+                <option value="distance">Distance</option>
+                <option value="rating">Most Popular</option>
+            </select>
+        </div>
 
-</form>
+        <br>
 
+        <div>
+            <input type="submit" class="btn btn-primary" value="Let's Eggsplore!">
+        </div>
+
+    </form>
+</div>
 {% endblock %}

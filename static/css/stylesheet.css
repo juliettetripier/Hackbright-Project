@@ -118,3 +118,13 @@ button {
 #search-button-profile {
     margin-bottom: 25px;
 }
+
+
+/* Restaurant Search Form-specific styling */
+
+#unit {
+    background-color: #489FB5;
+    border:#489FB5;
+    color: white;
+    border-radius: 5px;
+}

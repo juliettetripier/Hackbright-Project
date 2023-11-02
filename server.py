@@ -119,6 +119,7 @@ def get_search_results():
     location = request.args.get('location')
     radius = request.args.get('radius')
     unit = request.args.get('unit')
+    sort_by = request.args.get('sort_by')
 
     # Convert radius to meters for Yelp API
     if radius != "":
@@ -134,6 +135,7 @@ def get_search_results():
             'term': keywords,
             'location': location,
             'radius': radius,
+            'sort_by': sort_by,
             'limit': 50,
             }
     headers = {
