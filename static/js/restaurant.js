@@ -21,9 +21,6 @@ function addVisit() {
     })
         .then((response) => response.json())
         .then((responsejson) => {
-            // this is where we will enable/disable buttons once add visit button works
-            alert(responsejson['code']);
-       
             addVisitButton.style.display = "none";
             removeVisitButton.style.display = "inline";
         });
@@ -44,7 +41,6 @@ function removeVisit() {
     })
         .then((response) => response.json())
         .then((responsejson) => {
-            alert(responsejson['code']);
             addVisitButton.style.display = "inline";
             removeVisitButton.style.display = "none";
         })
@@ -95,6 +91,7 @@ function addTag() {
                 let tagCheckbox = `<input type='checkbox' id= ${responsejson['tag_id']} name='tag_id' value=${responsejson['tag_id']}>`;
                 let tagLabel = `<label for=${responsejson['tag_id']}> ${responsejson['tag_name']} </label>`;
                 addedTags.insertAdjacentHTML('beforeend', tagCheckbox);
+                addedTags.insertAdjacentHTML('beforeend', ' ');
                 addedTags.insertAdjacentHTML('beforeend', tagLabel);
                 addedTags.insertAdjacentHTML('beforeend', '<br/>');
                 removeTagButton.style.display = "inline";

@@ -136,3 +136,44 @@ button {
 #search-results-div {
     margin-left: 10px;
 }
+
+
+/* Restaurant Details Page-specific styling */
+
+#restaurant-details-header {
+    margin-top: 10px;
+}
+
+#yelp-image {
+    width: 100%;
+}
+
+#restaurant-details-row-1 {
+    margin-top: 20px;
+}
+
+#list-div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#visit-div {
+    margin-top: 20px;
+}
+
+#edit-tags-div {
+    margin-top: 20px;
+}
+
+#delete-tags-button {
+    margin-top: 10px;
+}
+
+#transactions {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+#hours {
+    margin-bottom: 25px;
+}

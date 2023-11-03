@@ -3,120 +3,149 @@
 
 {% block body %}
 
-<h1>{{ data['name'] }}</h1>
+<div class="container-fluid">
+    <div id="restaurant-details-header">
+        <h1>{{ data['name'] }}</h1>
 
-<h3>
-    {% for item in data['location']['display_address'] %}
-    {{ item }}
-    {% endfor %}
-</h3>
-
-<div id="visit-div">
-{% if visit %}
-    <button type="button" class="btn btn-outline-primary" id="visit-button" name="visit-button" value="{{ data['id'] }}" style="display: none">I ate here!</button>
-    <button type="button" class="btn btn-outline-primary" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}">Click here to unvisit</button>
-{% else %}
-    <button type="button" class="btn btn-outline-primary" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
-    <button type="button" class="btn btn-outline-primary" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}" style="display: none">Click here to unvisit</button>
-{% endif %}
-</div>
-
-<div id="list-div">
-    <h3>Add to List</h3>
-    {% if user.lists %}
-        <select name="list-dropdown" id="which-list">
-            {% for list in user.lists %}
-                <option value="{{ list.list_id }}">{{ list.name }}</option>
+        <h3>
+            {% for item in data['location']['display_address'] %}
+            {{ item }}
             {% endfor %}
-        </select>
-        <button type="button" class="btn btn-outline-primary btn-sm" id="add-to-list-button">Add</button>
-    {% else %}
-        <p>You have no lists!</p>
-        <p><a href="/newlist">Click here</a> to make a list.</p>
-        <input type="hidden" id="add-to-list-button">
-    {% endif %}
-</div>
+        </h3>
 
-<div id="tags-div">
-    <h3>Add a Tag</h3>
-    <select name="tags-dropdown" id="which-tag">
-        <option value="default"><i>Select an option</i></option>
-        {% for tag in tags %}
-            <option value="{{ tag.tag_id }}" class="displayed-tag">{{ tag.name }}</option>
-        {% endfor %}
-    </select>
-    <button type="button" class="btn btn-outline-primary btn-sm" id="add-tag-button">Add Tag</button>
-    <div id="edit-tags">
-        <form action="/deletetag" method="POST">
-            <div id="added-tags-div">
-            {% for tag in user_tags %}
-                <input type="checkbox" id="{{ tag.tag_id }}" name="tag_id" value="{{ tag.tag_id }}">
-                <label for="{{ tag.tag_id }}">{{ tag.tag.name }}</label>
-                <br>
-            {% endfor %}
-            </div>
-            <input type="hidden" name="restaurant_yelp_id" value="{{ data['id'] }}">
-            {% if user.tags %}
-            <button type="submit" class="btn btn-outline-primary btn-sm" id="delete-tags-button">Delete Selected Tags</button>
-            {% else %}
-            <button type="submit" class="btn btn-outline-primary btn-sm" id="delete-tags-button" style="display: none">Delete Selected Tags</button>
-            {% endif %}
-        </form>
+        <h5> {{ data['categories'][0]['title'] }} </h5>
     </div>
+    <div class="row" id="restaurant-details-row-1">
+        <div class="col-5" id="yelp-image-div">
+            <img src="{{ data['image_url'] }}" id="yelp-image">
+        </div>
+        <div class="col-3" id="restaurant-details-column-2">
+            <h4>Price: {{ data['price'] }}</h4>
+
+            <div class="row" id="transactions">
+                {% for item in data['transactions'] %}
+                <div class="col-4">
+                    <p>{{ item }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div id="hours">
+                <h4>Hours</h4>
+                {% if hours['Sunday']['is_closed_today'] == True %}
+                    <p>Sunday: Closed </p>
+                {% else %}
+                    <p>Sunday: {{ hours['Sunday']['when_open'] }}</p>
+                {% endif %}
+                {% if hours['Monday']['is_closed_today'] == True %}
+                    <p>Monday: Closed </p>
+                {% else %}
+                    <p>Monday: {{ hours['Monday']['when_open'] }}</p>
+                {% endif %}
+                {% if hours['Tuesday']['is_closed_today'] == True %}
+                    <p>Tuesday: Closed </p>
+                {% else %}
+                    <p>Tuesday: {{ hours['Tuesday']['when_open'] }}</p>
+                {% endif %}
+                {% if hours['Wednesday']['is_closed_today'] == True %}
+                    <p>Wednesday: Closed </p>
+                {% else %}
+                    <p>Wednesday: {{ hours['Wednesday']['when_open'] }}</p>
+                {% endif %}
+                {% if hours['Thursday']['is_closed_today'] == True %}
+                    <p>Thursday: Closed </p>
+                {% else %}
+                    <p>Thursday: {{ hours['Thursday']['when_open']}}</p>
+                {% endif %}
+                {% if hours['Friday']['is_closed_today'] == True %}
+                    <p>Friday: Closed </p>
+                {% else %}
+                    <p>Friday: {{ hours['Friday']['when_open'] }}</p>
+                {% endif %}
+                {% if hours['Saturday']['is_closed_today'] == True %}
+                    <p>Saturday: Closed </p>
+                {% else %}
+                    <p>Saturday: {{ hours['Saturday']['when_open'] }}</p>
+                {% endif %}
+            </div>
+
+            <h4>Contact: {{ data['display_phone'] }}</h4>
+        </div>
+        <div class="col-4 bg-light" id="restaurant-details-column-3">
+            <div id="visit-div">
+                {% if visit %}
+                    <button type="button" class="btn btn-primary" id="visit-button" name="visit-button" value="{{ data['id'] }}" style="display: none">I ate here!</button>
+                    <button type="button" class="btn btn-primary" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}">Click here to unvisit</button>
+                {% else %}
+                    <button type="button" class="btn btn-primary" id="visit-button" name="visit-button" value="{{ data['id'] }}">I ate here!</button>
+                    <button type="button" class="btn btn-primary" id="unvisit-button" name="unvisit-button" value="{{ data['id'] }}" style="display: none">Click here to unvisit</button>
+                {% endif %}
+            </div>
+            <div id="list-div">
+                <h3>Add to List</h3>
+                {% if user.lists %}
+                    <div class="row">
+                        <div class="col-12 col-md-9">
+                            <select name="list-dropdown" class="form-select" id="which-list">
+                                {% for list in user.lists %}
+                                    <option value="{{ list.list_id }}">{{ list.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-primary" id="add-to-list-button">Add</button>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>You have no lists!</p>
+                    <p><a href="/newlist">Click here</a> to make a list.</p>
+                    <input type="hidden" id="add-to-list-button">
+                {% endif %}
+            </div>
+
+            <div id="tags-div">
+                <h3>Add a Tag</h3>
+                <div class="row">
+                    <div class="col-9">
+                        <select name="tags-dropdown" class="form-select col-9" id="which-tag">
+                            <option value="default"><i>Select an option</i></option>
+                            {% for tag in tags %}
+                                    <option value="{{ tag.tag_id }}" class="displayed-tag">{{ tag.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-primary" id="add-tag-button">Add</button>
+                    </div>
+                </div>
+                <div id="edit-tags-div">
+                    <form action="/deletetag" method="POST">
+                        <div id="added-tags-div">
+                        {% for tag in user_tags %}
+                            <input type="checkbox" id="{{ tag.tag_id }}" name="tag_id" value="{{ tag.tag_id }}">
+                            <label for="{{ tag.tag_id }}">{{ tag.tag.name }}</label>
+                            <br>
+                        {% endfor %}
+                        </div>
+                        <input type="hidden" name="restaurant_yelp_id" value="{{ data['id'] }}">
+                        {% if user_tags %}
+                            <button type="submit" class="btn btn-primary btn-sm" id="delete-tags-button">Delete Selected Tags</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary btn-sm" id="delete-tags-button" style="display: none">Delete Selected Tags</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+            
+
+
+    
 </div>
-
-<div id="yelp-image">
-    <img src="{{ data['image_url'] }}">
-</div>
-
-<h4>Price: {{ data['price'] }}</h4>
-
-<div id="transactions">
-    {% for item in data['transactions'] %}
-    <p>{{ item }}</p>
-    {% endfor %}
-</div>
-
-<div id="hours">
-    <h4>Hours</h4>
-    {% if hours['Sunday']['is_closed_today'] == True %}
-        <p>Sunday: Closed </p>
-    {% else %}
-        <p>Sunday: {{ hours['Sunday']['when_open'] }}</p>
-    {% endif %}
-    {% if hours['Monday']['is_closed_today'] == True %}
-        <p>Monday: Closed </p>
-    {% else %}
-        <p>Monday: {{ hours['Monday']['when_open'] }}</p>
-    {% endif %}
-    {% if hours['Tuesday']['is_closed_today'] == True %}
-        <p>Tuesday: Closed </p>
-    {% else %}
-        <p>Tuesday: {{ hours['Tuesday']['when_open'] }}</p>
-    {% endif %}
-    {% if hours['Wednesday']['is_closed_today'] == True %}
-        <p>Wednesday: Closed </p>
-    {% else %}
-        <p>Wednesday: {{ hours['Wednesday']['when_open'] }}</p>
-    {% endif %}
-    {% if hours['Thursday']['is_closed_today'] == True %}
-        <p>Thursday: Closed </p>
-    {% else %}
-        <p>Thursday: {{ hours['Thursday']['when_open']}}</p>
-    {% endif %}
-    {% if hours['Friday']['is_closed_today'] == True %}
-        <p>Friday: Closed </p>
-    {% else %}
-        <p>Friday: {{ hours['Friday']['when_open'] }}</p>
-    {% endif %}
-    {% if hours['Saturday']['is_closed_today'] == True %}
-        <p>Saturday: Closed </p>
-    {% else %}
-        <p>Saturday: {{ hours['Saturday']['when_open'] }}</p>
-    {% endif %}
-</div>
-
-<h4>Contact: {{ data['display_phone'] }}</h4>
 
 <script src="/static/js/restaurant.js"></script>
 

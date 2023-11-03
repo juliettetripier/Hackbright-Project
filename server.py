@@ -231,7 +231,7 @@ def show_restaurant_page(id):
     # get all tags from DB
     tags = crud.get_all_tags()
 
-    #get the user's tags for this restaurant, if any
+    # get the user's tags for this restaurant, if any
     user_tags_for_restaurant = crud.get_user_tags_by_restaurant_and_user(user_id, restaurant_id)
 
     return render_template('restaurant-details.html',
