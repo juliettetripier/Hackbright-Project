@@ -177,3 +177,14 @@ button {
 #hours {
     margin-bottom: 25px;
 }
+
+
+/* List Creation Page-specific styling */
+
+#list-ideas-div {
+    margin-top: 25px;
+}
+
+#list-ideas-list {
+    margin-left: 20px;
+}

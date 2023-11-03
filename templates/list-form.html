@@ -3,36 +3,42 @@
 
 {% block body %}
 
-<h1>Create a New List</h1>
-
-<form action="/newlist/go">
-    <div>
-        <label for="listname">List Name</label>
-        <input id="listname" type="text" name="listname" required> *
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>Create a New List</h1>
     </div>
+    <div class="row">
+        <form action="/newlist/go">
+            <div class="col-12 col-md-9 col-xl-6">
+                <label for="listname" class="form-label">List Name *</label>
+                <input class="form-control" id="listname" type="text" name="listname" required>
+            </div>
 
-    <br>
+            <br>
 
-    <div>
-        <label for="description">Description</label>
-        <input id="description" type="text" name="description">
+            <div class="col-12 col-md-9 col-xl-6">
+                <label for="description" class="form-label">Description</label>
+                <input class="form-control" id="description" type="text" name="description">
+            </div>
+
+            <br>
+
+            <div>
+                <input class="btn btn-primary" type="submit" value="Create List">
+            </div>
+        </form> 
     </div>
-
-    <br>
-
-    <div>
-        <input type="submit" value="Create List">
+    <div class="row" id="list-ideas-div">
+        <p>Here are some list ideas to get you started: </p>
+        <ul id="list-ideas-list">
+            <li>Wishlist</li>
+            <li>Favorites</li>
+            <li>Date Night Ideas</li>
+            <li>Taco Tuesday</li>
+            <li>Summer Eats</li>
+            <li>...or any other thing you want to keep track of!</li>
+        </ul>
     </div>
-</form> 
-
-<p> Here are some list ideas to get you started: </p>
-<ul>
-    <li>Wishlist</li>
-    <li>Date Night Ideas</li>
-    <li>Taco Tuesday</li>
-    <li>Summer Eats</li>
-    <li>...or any other thing you want to keep track of!</li>
-</ul>
-
+</div>
 
 {% endblock %}
