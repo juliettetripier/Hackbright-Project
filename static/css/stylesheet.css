@@ -188,3 +188,17 @@ button {
 #list-ideas-list {
     margin-left: 20px;
 }
+
+/* List Details Page-specific styling */
+
+.list-item {
+    font-size: 20px;
+}
+
+#delete-item-div {
+    margin-left: 10px;
+}
+
+#delete-list-button {
+    margin-top: 35px;
+}

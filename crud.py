@@ -135,6 +135,15 @@ def get_all_list_items_by_user(user_id):
     return ListItem.query.filter_by(user_id=user_id).all()
 
 
+def get_user_by_list(list_id):
+    """Return the user to whom the specified list belongs."""
+
+    wishlist = Wishlist.query.filter_by(list_id=list_id).first()
+    user_id = wishlist.user_id
+    
+    return User.query.filter_by(user_id=user_id).first()
+
+
 def get_all_tags():
     """Return all tags in the database."""
 

@@ -352,6 +352,7 @@ def show_list(id):
     user = crud.get_user_by_id(session.get('user'))
     wishlist = crud.get_list_by_list_id(id)
     list_items = crud.get_list_items(id)
+    list_owner = crud.get_user_by_list(id)
 
     restaurants = []
     if list_items:
@@ -359,9 +360,9 @@ def show_list(id):
             restaurant = crud.get_restaurant_by_internal_id(item.restaurant_id)
             restaurants.append(restaurant)
 
-
     return render_template('/list-details.html',
                            user=user,
+                           list_owner=list_owner,
                            list=wishlist,
                            restaurants=restaurants)
 

@@ -3,42 +3,70 @@
 
 {% block body %}
 
-<h1>{{ list.name }}</h1>
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>{{ list.name }}</h1>
+    </div>
 
-<p>{{ list.description }}</p>
-
-<div id="list-items">
-    {% if restaurants %}
-        <ul>
-            {% for item in restaurants %}
-                <li><a href="/restaurant/{{ item.yelp_id }}">{{ item.name }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p><i>This list is currently empty.</i></p>
-        <p><i><a href="/search">Search for restaurants</a> to add to your list!</i></p>
-    {% endif %}
-</div>
-
-{% if restaurants %}
-    <form action="/delete-list-item">
-        <div id="delete-item-div">
-            <h3>Delete an item?</h3>
-                <select name="item-dropdown" id="which-item">
-                    {% for restaurant in restaurants %}
-                        <option value="{{ restaurant.restaurant_id }}">{{ restaurant.name }}</option>
-                    {% endfor %}
-                    <input type="submit" id="delete-submit" value="Delete Item">
-                </select>
-                <input type="hidden" value="{{ list.list_id }}" name="list-id" id="list-id">
-        </div>
+    <div class="centering">
+       <p>{{ list.description }}</p> 
+    </div>
+    
+    <div class="row">
+        {% if user == list_owner %}
+            {% if restaurants %}
+                <div class="col-7 bg-light" id="list-items">
+                    <ul>
+                        {% for item in restaurants %}
+                            <li class="list-item"><a href="/restaurant/{{ item.yelp_id }}">{{ item.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <div class="col-10 offset-1 bg-light" id="list-items">
+                    <p><i>This list is currently empty.</i></p>
+                    <p><i><a href="/search">Search for restaurants</a> to add to your list!</i></p>
+                </div>
+                {% endif %}
+            <div class="col-4" id="delete-item-div">
+                {% if restaurants %}
+                    <form action="/delete-list-item">
+                        <h3>Delete an item?</h3>
+                        <div class="row">
+                            <div class="col-9">
+                                <select class="form-select" name="item-dropdown" id="which-item">
+                                    {% for restaurant in restaurants %}
+                                        <option value="{{ restaurant.restaurant_id }}">{{ restaurant.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <input class="btn btn-primary" type="submit" id="delete-submit" value="Delete Item">
+                            </div>
+                        </div>
+                        <input type="hidden" value="{{ list.list_id }}" name="list-id" id="list-id">
+                    </form>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="col-9 bg-light" id="list-items">
+                {% if restaurants %}
+                    <ul>
+                        {% for item in restaurants %}
+                            <li class="list-item"><a href="/restaurant/{{ item.yelp_id }}">{{ item.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p><i>This list is currently empty.</i></p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <form action="/delete-list">
+        <button class="btn btn-primary" type="submit" id="delete-list-button">Delete List</button>
+        <input type="hidden" value="{{ list.list_id }}" name="list-id">
     </form>
-{% endif %}
-
-<form action="/delete-list">
-    <button type="submit" id="delete-list-button">Delete List</button>
-    <input type="hidden" value="{{ list.list_id }}" name="list-id">
-</form>
-
+</div>
 
 {% endblock %}
