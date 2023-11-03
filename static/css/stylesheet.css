@@ -189,6 +189,7 @@ button {
     margin-left: 20px;
 }
 
+
 /* List Details Page-specific styling */
 
 .list-item {
@@ -201,4 +202,11 @@ button {
 
 #delete-list-button {
     margin-top: 35px;
+}
+
+
+/* Leaderboard-specific styling */
+
+.table-primary td {
+    background-color:#DCEDF1;
 }

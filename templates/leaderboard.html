@@ -3,46 +3,53 @@
 
 {% block body %}
 
-<h1>Achievement Leaderboard</h1>
+<div class="container-fluid">
+    <div class="page-header">
+        <h1>Achievement Leaderboard</h1>
+    </div>
+    <div class="col-10 offset-1">
+        <table class="table">
+            <tr>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Achievements</th>
+                <th>Points</th>
+            </tr>
+            {% for i, top_user in enumerate(top_ten) %}
+                {% if top_user == user %}
+                    <tr class="table-primary">
+                        <td><b>{{ i + 1 }}</b></td>
+                        <td><a href="/profile/{{ top_user.user_id }}"><b>{{ top_user.username }}</b></a></td>
+                        <td><b>{{ top_user.num_achievements }}</b></td>
+                        <td><b>{{ top_user.total_points }}</b></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td><a href="/profile/{{ top_user.user_id }}">{{ top_user.username }}</a></td>
+                        <td>{{ top_user.num_achievements }}</td>
+                        <td>{{ top_user.total_points }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            {% if not user_in_top_ten %}
+                    <tr>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td><b>{{ user_rank }}</b></td>
+                        <td><a href="/profile/{{ user.user_id }}"><b>{{ user.username }}</b></a></td>
+                        <td><b>{{ user.num_achievements }}</b></td>
+                        <td><b>{{ user.total_points }}</b></td>
+                    </tr>
+            {% endif %}
+        </table>
+    </div>
+    
+</div>
 
-<table>
-    <tr>
-        <th>Rank</th>
-        <th>User</th>
-        <th>Achievements</th>
-        <th>Points</th>
-    </tr>
-    {% for i, top_user in enumerate(top_ten) %}
-        {% if top_user == user %}
-            <tr>
-                <td><b>{{ i + 1 }}</b></td>
-                <td><a href="/profile/{{ top_user.user_id }}"><b>{{ top_user.username }}</b></a></td>
-                <td><b>{{ top_user.num_achievements }}</b></td>
-                <td><b>{{ top_user.total_points }}</b></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td>{{ i + 1 }}</td>
-                <td><a href="/profile/{{ top_user.user_id }}">{{ top_user.username }}</a></td>
-                <td>{{ top_user.num_achievements }}</td>
-                <td>{{ top_user.total_points }}</td>
-            </tr>
-        {% endif %}
-    {% endfor %}
-    {% if not user_in_top_ten %}
-            <tr>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-            </tr>
-            <tr>
-                <td><b>{{ user_rank }}</b></td>
-                <td><a href="/profile/{{ user.user_id }}"><b>{{ user.username }}</b></a></td>
-                <td><b>{{ user.num_achievements }}</b></td>
-                <td><b>{{ user.total_points }}</b></td>
-            </tr>
-    {% endif %}
-</table>
 
 {% endblock %}
