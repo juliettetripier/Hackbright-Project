@@ -1,6 +1,7 @@
 from flask import (Flask, render_template, request, flash, session,
                    redirect, jsonify)
 from model import connect_to_db, db
+from collections import Counter
 import crud
 import datetime
 import os
@@ -234,13 +235,25 @@ def show_restaurant_page(id):
     # get the user's tags for this restaurant, if any
     user_tags_for_restaurant = crud.get_user_tags_by_restaurant_and_user(user_id, restaurant_id)
 
+    # get most common tags for restaurant, if any
+    all_tags_for_restaurant = crud.get_user_tags_by_restaurant(restaurant_id)
+    tag_count = Counter(all_tags_for_restaurant)
+    most_popular_tags = tag_count.most_common(3)
+    most_popular_tag_names = []
+    for tag in most_popular_tags:
+        tag_object = tag[0]
+        grabbed_tag = crud.get_tag_name_by_user_tag(tag_object)
+        most_popular_tag_names.append(grabbed_tag)
+    most_popular_tags_string = ", ".join(most_popular_tag_names)
+        
     return render_template('restaurant-details.html',
                            data=data,
                            hours=hours_dict,
                            visit=visit,
                            user=user,
                            tags=tags,
-                           user_tags=user_tags_for_restaurant)
+                           user_tags=user_tags_for_restaurant,
+                           most_popular_tags=most_popular_tags_string)
 
 
 @app.route('/addvisit', methods=['POST'])

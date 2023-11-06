@@ -27,7 +27,7 @@
                     <p><i>This list is currently empty.</i></p>
                     <p><i><a href="/search">Search for restaurants</a> to add to your list!</i></p>
                 </div>
-                {% endif %}
+            {% endif %}
             <div class="col-4" id="delete-item-div">
                 {% if restaurants %}
                     <form action="/delete-list-item">
@@ -62,11 +62,12 @@
             </div>
         {% endif %}
     </div>
-    
+    {% if user == list_owner %}
     <form action="/delete-list">
         <button class="btn btn-primary" type="submit" id="delete-list-button">Delete List</button>
         <input type="hidden" value="{{ list.list_id }}" name="list-id">
     </form>
+    {% endif %}
 </div>
 
 {% endblock %}

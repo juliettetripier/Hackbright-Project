@@ -156,10 +156,25 @@ def get_tag_by_tag_id(tag_id):
     return Tag.query.get(tag_id)
 
 
+def get_tag_name_by_user_tag(user_tag):
+    """Return the tag name from the specified user tag object."""
+
+    tag_id = user_tag.tag_id
+    tag = Tag.query.filter_by(tag_id=tag_id).first()
+
+    return tag.name
+
+
 def get_user_tags(user_id):
     """Return all tags assigned by the specified user."""
 
     return UserTag.query.filter_by(user_id=user_id).all()
+
+
+def get_user_tags_by_restaurant(restaurant_id):
+    """Return all user tags for a given restaurant, across all users."""
+
+    return UserTag.query.filter_by(restaurant_id=restaurant_id).all()
 
 
 def get_user_tags_by_restaurant_and_user(user_id, restaurant_id):

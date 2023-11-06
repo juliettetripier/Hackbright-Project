@@ -36,13 +36,13 @@
             <li class="nav-item">
               <a class="nav-link" href="/leaderboard">Leaderboard</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Log Out</a>
-            </li>
           </ul>
-          <form class="d-flex" action="/search-user">
+          <!-- <form class="d-flex" action="/search-user">
             <input class="form-control me-2" type="search" placeholder="Search for users..." aria-label="Search" name="requested_user">
             <button class="btn btn-outline-success" type="submit">Search</button>
+          </form> -->
+          <form action="/logout">
+            <button class="btn btn-outline-primary nav-item" type="submit">Log Out</button>
           </form>
         </div>
         {% else %}

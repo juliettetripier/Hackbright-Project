@@ -13,7 +13,8 @@
             {% endfor %}
         </h3>
 
-        <h5> {{ data['categories'][0]['title'] }} </h5>
+        <h5> {{ data['categories'][0]['title'] }} {% if most_popular_tags %}  •  {{ most_popular_tags }} {% endif %} </h5>
+
     </div>
     <div class="row" id="restaurant-details-row-1">
         <div class="col-5" id="yelp-image-div">
