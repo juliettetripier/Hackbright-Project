@@ -67,6 +67,7 @@ def login():
     if user:
         if password == user.password:
             session['user'] = user.user_id
+            session['username'] = user.username
             return redirect(f'/profile/{user.user_id}')
         else: 
             flash('Your login credentials are incorrect. Please try again.')
