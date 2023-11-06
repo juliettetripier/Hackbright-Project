@@ -71,9 +71,14 @@
             </div>
         </div>
     {% if profile_owner == user %}
-    <form action="/logout">
-    <button type="submit" class="btn btn-primary" id="logout-button">Log Out</button>
-    </form>
+    <div class="row" id="profile-bottom-row">
+        <form action="/customize-egg">
+            <button type="submit" class="btn btn-primary" id="customize-egg-button">Edit Mascot</button>
+        </form>
+        <form action="/logout">
+            <button type="submit" class="btn btn-primary" id="logout-button">Log Out</button>
+        </form>
+    </div>
     {% endif %}
 </div>
 

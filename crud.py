@@ -244,3 +244,17 @@ def get_users_sorted_by_points():
     """Return all users, sorted by achievement points in descending order."""
 
     return User.query.order_by(desc(User.total_points)).all()
+
+
+def get_user_egg_hat(user_id):
+    """Return the user's choice of egg hat."""
+
+    user = User.query.filter_by(user_id=user_id).first()
+    return user.egg_hat
+
+
+def update_user_egg_hat(hat, user_id):
+    """Update the user's egg hat in the DB according to the input string."""
+
+    user = User.query.filter_by(user_id=user_id).first()
+    user.egg_hat = hat

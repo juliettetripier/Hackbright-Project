@@ -115,13 +115,28 @@ button {
 }
 
 #achievements-div {
-    max-height: 50vh;
+    max-height: 45vh;
 }
 
 #search-button-profile {
     margin-bottom: 25px;
 }
 
+#customize-egg-button {
+    margin-bottom: 10px;
+}
+
+
+/* Edit Mascot Page-specific styling */
+
+#egg-mascot-edit-page {
+    width: 100%;
+}
+
+#hats-div {
+    display: flex;
+    justify-content: center;
+}
 
 /* Restaurant Search Form-specific styling */
 

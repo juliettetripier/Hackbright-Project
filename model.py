@@ -18,6 +18,8 @@ class User(db.Model):
                                  default=0)
     total_points = db.Column(db.Integer,
                              default=0)
+    egg_hat = db.Column(db.String,
+                        default="basic")
 
     lists = db.relationship("Wishlist", back_populates="user")
     achievements = db.relationship("Achievement", secondary="user_achievements", back_populates="users")

@@ -571,6 +571,7 @@ def show_leaderboard():
 @app.route('/search-user')
 def get_user_search_results():
     """Search for a user with the requested username."""
+
     requested_username = request.args.get('requested_user')
     requested_user = crud.get_user_by_username(requested_username)
     user = session.get('user')
@@ -582,6 +583,20 @@ def get_user_search_results():
     else:
         flash('You must be logged in to search for users!')
         return redirect('/')
+    
+
+@app.route('/customize-egg')
+def show_edit_mascot_page():
+    """Display the edit mascot page."""
+
+    user = crud.get_user_by_id(session.get('user'))
+
+    if user:
+        return render_template('customize-egg.html')
+    else:
+        flash('You must be logged in to edit your mascot!')
+        return redirect('/')
+
 
 
 
