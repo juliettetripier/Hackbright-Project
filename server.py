@@ -590,9 +590,23 @@ def show_edit_mascot_page():
     """Display the edit mascot page."""
 
     user = crud.get_user_by_id(session.get('user'))
+    points = user.total_points
 
+    if points >= 40:
+        unlocked_hats = ["basic", "chef", "devil", "pancake", "wizard"]
+    elif points >= 25:
+        unlocked_hats = ["basic", "chef", "devil", "pancake"]
+    elif points >= 10:
+        unlocked_hats = ["basic", "chef", "devil"]
+    elif points >= 5:
+        unlocked_hats = ["basic", "chef"]
+    else:
+        unlocked_hats = []
+    
     if user:
-        return render_template('customize-egg.html')
+        return render_template('customize-egg.html',
+                               user=user,
+                               unlocked_hats=unlocked_hats)
     else:
         flash('You must be logged in to edit your mascot!')
         return redirect('/')

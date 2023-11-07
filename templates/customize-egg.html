@@ -12,14 +12,28 @@
             <img src="/static/img/egg-basic.PNG" id="egg-mascot-edit-page">
         </div>
         <div class="col-6" id="hats-div">
-            <h2>Unlocked Hats</h2>
-            <table>
-                <tr>
-                    <td>Hat</td>
-                </tr>
-            </table>
+            <h2 id="unlocked-hats-heading">Unlocked Hats</h2>
+            <div class="row" id="hats-display">
+                {% if unlocked_hats %}
+                    {% for hat in unlocked_hats %}
+                        <button class="btn btn-primary hat-option" id="{{ hat }}">{{ hat }}</button>
+                    {% endfor %}
+                {% else %}
+                <div class="col-12" id="no-unlocked-hats">
+                    <p>You haven't unlocked any hats yet.</p>
+                    <br>
+                    <p>Try creating a list or marking a restaurant as visited and see what happens!</p>
+                </div>
+                {% endif %}
+            </div>
+
         </div>
     </div>
+    <form action="/profile/{{ user.user_id }}">
+        <button type="submit" class="btn btn-primary" id="back-to-profile-button">Save and Return</button>
+    </form>
 </div>
+
+<script src="/static/js/customize-egg.js"></script>
 
 {% endblock %}
