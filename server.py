@@ -610,6 +610,20 @@ def show_edit_mascot_page():
     else:
         flash('You must be logged in to edit your mascot!')
         return redirect('/')
+    
+
+@app.route('/updatehat', methods=['POST'])
+def update_hat():
+    """Update the user's egg hat in the database."""
+
+    user_id = session.get('user')
+    new_hat = request.get_json().get('newHat')
+    print(new_hat)
+
+    crud.update_user_egg_hat(hat=new_hat, user_id=user_id)
+    db.session.commit()
+
+    return jsonify({'code': 'Success'})
 
 
 

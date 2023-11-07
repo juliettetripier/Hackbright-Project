@@ -1,7 +1,8 @@
 const hatSelectButtons = document.querySelectorAll('.hat-option');
 const eggPicture = document.querySelector('#egg-mascot-edit-page');
-const saveButton = document.querySelector('#back-to-profile-button');
-let newHat = 'basic';
+const oldHat = document.querySelector('#egg-mascot-edit-page').id;
+const saveButton = document.querySelector('#save-hat-button');
+let newHat = oldHat;
 
 
 function showHatOption(evt) {
@@ -14,6 +15,7 @@ function saveHatOption() {
     const formInputs = {
         newHat: newHat,
     };
+    console.log(newHat);
 
     fetch('/updatehat', {
         method: 'POST',
@@ -23,8 +25,9 @@ function saveHatOption() {
         }
     })
         .then((response) => response.json())
-        .then(responsejson => {
-            console.log('Success')
+        .then((responsejson) => {
+            console.log(responsejson['code'])
+            alert('Hat successfully updated!')
         })
 }
 

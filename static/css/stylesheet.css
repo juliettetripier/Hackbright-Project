@@ -156,12 +156,9 @@ button {
     flex-direction: column;
 }
 
-#back-to-profile-button {
-    margin-top: 25px;
-}
-
 #save-hat-button {
-    margin-top: 50px;
+    margin-top: 25px;
+    margin-bottom: 20px;
 }
 
 .hat-option {

@@ -9,7 +9,7 @@
     </div>
     <div class="row">
         <div class="col-6">
-            <img src="/static/img/egg-basic.PNG" id="egg-mascot-edit-page">
+            <img src="/static/img/egg-{{ user.egg_hat }}.PNG" id="egg-mascot-edit-page">
         </div>
         <div class="col-6" id="hats-div">
             <h2 id="unlocked-hats-heading">Unlocked Hats</h2>
@@ -29,8 +29,9 @@
 
         </div>
     </div>
+    <button class="btn btn-primary" id="save-hat-button">Save Hat</button>
     <form action="/profile/{{ user.user_id }}">
-        <button type="submit" class="btn btn-primary" id="back-to-profile-button">Save and Return</button>
+        <button type="submit" class="btn btn-primary">Back to Profile</button>
     </form>
 </div>
 

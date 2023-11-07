@@ -257,4 +257,4 @@ def update_user_egg_hat(hat, user_id):
     """Update the user's egg hat in the DB according to the input string."""
 
     user = User.query.filter_by(user_id=user_id).first()
-    user.egg_hat = hat
+    setattr(user, 'egg_hat', hat)
