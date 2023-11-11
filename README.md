@@ -9,8 +9,11 @@
 * [About the Dev](#about-me)
 
 ## <a name="overview"></a>Overview
-Eggsplorer is a full-stack, Python-based Flask application that rewards users for documenting their epicurean adventures. 
-Eggsplorer allows users to discover their new favorite local restaurants while building out a personalized profile and earning achievements. Users can search for restaurants by keyword and location, record their restaurant visits, add them to customized lists, and assign tags to them. Users earn achievements as they use Eggsplorer's site features. Earned achievements affect both the user's standing in the achievement leaderboards and the hats a user can unlock for the site mascot, a friendly egg named Sunny.
+**Eggsplorer** is a full-stack, Python-based Flask application that rewards users for documenting their epicurean adventures. 
+
+Eggsplorer allows users to discover their new favorite local restaurants while building out a personalized profile and earning achievements. Users can search for restaurants by keyword and location, record their restaurant visits, add them to customized lists, and assign tags to them. Users earn achievements as they use Eggsplorer's site features, affecting both the user's standing in the achievement leaderboards and the hats a user can unlock for the site mascot.
+
+<a href="https://www.youtube.com/watch?v=rhc7XCFqZMY">Click here</a> to view the demo video.
 
 ## <a name="tech-stack"></a>Tech Stack
 __Front End:__ HTML, Jinja2, JavaScript (AJAX, JSON), CSS, Bootstrap, Flexbox </br>
