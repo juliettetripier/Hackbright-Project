@@ -9,8 +9,6 @@
 * [About the Dev](#about-me)
 
 ## <a name="overview"></a>Overview
-Learn more about the developer: www.linkedin.com/in/juliettetripier/
-
 Eggsplorer is a full-stack Python-based Flask application that rewards users for documenting their epicurean adventures.
 
 (wip)
@@ -27,4 +25,6 @@ __APIs:__ Yelp Fusion </br>
 (wip)
 
 ## <a name="about-me"></a>About the Dev
-(wip)
+Juliette Tripier (they/she) is a programmer with a background in both cognitive neuroscience and administrative/HR work. They have two great loves: working through delicate, complex logic puzzles and drawing cute, silly cartoons. Building a Flask application with a friendly egg mascot has proven to be the perfect marriage of these two things.
+
+Learn more about the developer here: www.linkedin.com/in/juliettetripier/
