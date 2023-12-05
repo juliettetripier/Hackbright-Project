@@ -21,7 +21,29 @@ __Back End:__ Python, Flask, PostgreSQL, SQLAlchemy </br>
 __APIs:__ Yelp Fusion </br>
 
 ## <a name="features"></a>Features
-(wip)
+Log in or create an account on the homepage. You must be logged in to access Eggsplorer's other features.
+
+![Homepage Picture](/static/img/homepage.png)
+
+View your profile page. Your profile displays your custom lists, restaurant visits, achievements you've earned, and your mascot getup. You can create and view lists, as well as change your mascot's displayed hat, via the links on your profile page.
+
+![Profile Picture](/static/img/profile.png)
+
+Click on a list's name to view its detail page. View the restaurants in your list, delete list items, or delete the list itself through this page.
+
+![List Picture](/static/img/list.png)
+
+Search for restaurants via the link in the navigation bar or the button on your profile page.
+
+![Search Picture](/static/img/search.png)
+
+View a restaurant's details page. See detailed information about the restaurant, add it to your visits, add it to a list, or assign tags to it to help yourself and other users see what the restaurant has to offer. The most popular tags for a restaurant are displayed in the header.
+
+![Restaurant Picture](/static/img/restaurantpage.png)
+
+View the achievement leaderboard through the link in the navigation bar. See the top ten users by achievement points. If you are not in the top ten, your name, rank, and achievement metrics will be displayed below the top ten. Click any of the users' names to view their profile pages.
+
+![Leaderboard Picture](/static/img/leaderboard.png)
 
 ## <a name="setup"></a>Setup
 
