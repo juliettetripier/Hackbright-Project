@@ -24,7 +24,27 @@ __APIs:__ Yelp Fusion </br>
 (wip)
 
 ## <a name="setup"></a>Setup
-(wip)
+
+#### Requirements:
+
+- Python 3.9.18
+- PostgreSQL
+
+#### Step-by-step Setup
+
+For each step, type the specified command into the command line in your terminal.
+
+Clone the repository from GitHub:
+```
+$ git clone https://github.com/juliettetripier/Hackbright-Project.git
+```
+
+Create your virtual environment:
+```
+$ virtualenv env
+```
+
+Activate your virtual environment:
 
 ## <a name="about-me"></a>About the Dev
 Juliette Tripier (they/she) is a programmer with a background in both cognitive neuroscience and administrative/HR work. They have two great loves: working through delicate, complex logic puzzles and drawing cute, silly cartoons. Building a Flask application with a friendly egg mascot has proven to be the perfect marriage of these two things.
