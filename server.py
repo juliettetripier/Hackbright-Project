@@ -9,7 +9,7 @@ import math
 import requests
 
 app = Flask(__name__)
-app.secret_key = "REPLACE ME LATER"
+app.secret_key = os.environ['SECRET_KEY']
 
 YELP_API_KEY = os.environ['YELP_KEY']
 
