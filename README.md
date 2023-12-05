@@ -45,6 +45,10 @@ View the achievement leaderboard through the link in the navigation bar. See the
 
 ![Leaderboard Picture](/static/img/leaderboard.png)
 
+Unlock new hats for the site mascot as you earn achievement points. Customize the displayed hat via the "Customize Mascot" button on your profile page.
+
+![Customize Mascot Picture](/static/img/customize.png)
+
 ## <a name="setup"></a>Setup
 
 #### Requirements:
